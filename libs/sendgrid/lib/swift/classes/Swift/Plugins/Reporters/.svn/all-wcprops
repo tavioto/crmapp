@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Plugins/Reporters
+END
+HitReporter.php
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Plugins/Reporters/HitReporter.php
+END
+HtmlReporter.php
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Plugins/Reporters/HtmlReporter.php
+END

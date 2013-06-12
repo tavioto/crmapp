@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/dependency_maps
+END
+cache_deps.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/dependency_maps/cache_deps.php
+END
+message_deps.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/dependency_maps/message_deps.php
+END
+mime_deps.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/dependency_maps/mime_deps.php
+END
+transport_deps.php
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/dependency_maps/transport_deps.php
+END

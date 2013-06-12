@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/Headers
+END
+AbstractHeader.php
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/Headers/AbstractHeader.php
+END
+UnstructuredHeader.php
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/Headers/UnstructuredHeader.php
+END
+IdentificationHeader.php
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/Headers/IdentificationHeader.php
+END
+MailboxHeader.php
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/Headers/MailboxHeader.php
+END
+ParameterizedHeader.php
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/Headers/ParameterizedHeader.php
+END
+PathHeader.php
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/Headers/PathHeader.php
+END
+DateHeader.php
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/Headers/DateHeader.php
+END

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Transport/Esmtp
+END
+Authenticator.php
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Transport/Esmtp/Authenticator.php
+END
+AuthHandler.php
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Transport/Esmtp/AuthHandler.php
+END

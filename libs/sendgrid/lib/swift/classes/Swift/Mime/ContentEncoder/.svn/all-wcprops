@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/ContentEncoder
+END
+QpContentEncoder.php
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/ContentEncoder/QpContentEncoder.php
+END
+PlainContentEncoder.php
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/ContentEncoder/PlainContentEncoder.php
+END
+Base64ContentEncoder.php
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mime/ContentEncoder/Base64ContentEncoder.php
+END

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/SendGrid
+END
+Api.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/SendGrid/Api.php
+END
+Web.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/SendGrid/Web.php
+END
+Mail.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/SendGrid/Mail.php
+END
+MailInterface.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/SendGrid/MailInterface.php
+END
+Smtp.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/SendGrid/Smtp.php
+END

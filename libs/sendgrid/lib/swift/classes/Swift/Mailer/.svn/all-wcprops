@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mailer
+END
+ArrayRecipientIterator.php
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mailer/ArrayRecipientIterator.php
+END
+RecipientIterator.php
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/lib/swift/classes/Swift/Mailer/RecipientIterator.php
+END

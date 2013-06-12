@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php
+END
+composer.json
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/composer.json
+END
+SendGrid.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/SendGrid.php
+END
+MIT.LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/MIT.LICENSE
+END
+SendGrid_loader.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/SendGrid_loader.php
+END
+README.md
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/buyerhomesite/!svn/ver/361/website/library/sendgrid-php/README.md
+END

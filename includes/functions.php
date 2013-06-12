@@ -35,5 +35,39 @@
 	    }
 		return $url;
 	}
+	
+	function RandomPassword()
+	{
+		$string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+		$stringLength=strlen($string);
+		$pass = "";
+		$passLength=10;
+		
+		for($i=1 ; $i<=$passLength ; $i++){
+			$pos=rand(0,$stringLength-1);
+			$pass .= substr($string,$pos,1);
+		}
+		return $pass;
+	}
+	
+	function forgotPassMail($mail, $pass){
+		$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+		$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		$cabeceras .= 'From: CRM<CRM@CRM.com>' . "\r\n";
+		$asunto = "Your new password";
+		$mensaje.= "<p>This message was created automatically</p>";
+		$mensaje.= "<label>Your new Password: </label>{$pass}<br><br>";
+		mail($mail, $asunto, $mensaje, $cabeceras);
+	}
+	
+	function getUserMail($mail, $user){
+		$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+		$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		$cabeceras .= 'From: CRM<CRM@CRM.com>' . "\r\n";
+		$asunto = "We are remembering your Username";
+		$mensaje.= "<p>This message was created automatically</p>";
+		$mensaje.= "<label>Your Username: </label>{$user}<br><br>";
+		mail($mail, $asunto, $mensaje, $cabeceras);
+	}
 
 ?>

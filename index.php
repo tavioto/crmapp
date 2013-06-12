@@ -79,7 +79,7 @@
 					<input type="text" class="input-block-level" placeholder="Email address" name="username" id="username">
 					<input type="password" class="input-block-level" placeholder="Password" name="password" id="password">
 					<label class="checkbox">
-						<input type="checkbox" value="remember-me"> Remember me
+						<a href="forgot.php?f=user">Forgot your user?</a> | <a href="forgot.php?f=pass">Forgot your password?</a>
 					</label>
 					<button class="btn btn-large btn-primary" type="submit">Sign in</button>
 				</form>
