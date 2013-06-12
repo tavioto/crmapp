@@ -20,6 +20,7 @@
 				        <ul class="nav nav-pills">
 					        <li><a href="#">Home</a></li>
 					        <li><a href="logout.php">Logout</a></li>
+					        <li><a href="addUser.php">Add User</a></li>
 					        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Company Profile</a>
 					        	<ul class="dropdown-menu">
 						        	<li><a href="#">Login/Logout</a></li>

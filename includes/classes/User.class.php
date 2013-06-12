@@ -1,12 +1,5 @@
 <?php
 
-// http://www.profilepicture.co.uk/php-mvc-model-class/
-
-/**
- * User - Administrator/Moderator/Member
- *
- * @author Phil Parsons
- */
 class User extends Model {
  
     // Properties
@@ -25,65 +18,6 @@ class User extends Model {
     }
  
      
-    /**
-     * Loads User from username and password
-     *
-     * @param string $un username
-     * @param string $pw password
-     *
-     * @return User|bool false if user doesn't exist
-     * /
-    public static function loginUser ($un, $pw) {
-        $user = new User();
-        $user->load(array(
-            array(
-                'field' => 'username',
-                'operator' => '=',
-                'value' => $un
-            ),
-            array(
-                'conjunction' => 'AND',
-                'field' => 'password',
-                'operator' => '=',
-                'value' => crypt($pw, AUTH_KEY)
-            )
-        ));
-        if ($user->get('id') > 0) {
-            return $user;
-        }
-        return false;
-    }
-    */
-    /**
-     * Checks if a username exists in the system
-     *
-     * @param string $un username
-     * @return bool
-     * /
-    public static function checkUserExists ($un) {
-        $user = new User();
-        $user->load(array(
-            array('username', '=', $un)
-        ));
-        return $user->id > 0;
-    } */
-     
-    /**
-     * Creates new User from registration details
-     *
-     * @param string $un username
-     * @param string $pw password
-     * @param string $em email
-     * /
-    public static function register ($un, $pw, $em) {
-        $user = new User();
-        $user->username = $un;
-        $user->password = $pw;
-        $user->email = $em;
-        return $user;
-    }
-    
-    */
  
 }
 
