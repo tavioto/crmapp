@@ -9,7 +9,7 @@
 
     $auth = new Auth($db);
 
-	if(!$auth->userLogged()){
+	/*if(!$auth->userLogged()){
 		header('location: index.php');
-	}
+	}*/
 ?>
