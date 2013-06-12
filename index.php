@@ -51,7 +51,40 @@
 	
 		<div class="container">
 			
-			<nav></nav>
+			<nav>
+				<div class="navbar navbar-inverse">
+				  <div class="navbar-inner">
+				    <div class="container">
+				 
+				      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+				      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				      </a>
+				 
+				      <!-- Be sure to leave the brand out there if you want it shown -->
+				      <a class="brand" href="#">Administrator</a>
+				 
+				      <!-- Everything you want hidden at 940px or less, place within here -->
+				      <div class="nav-collapse collapse">
+				        <!-- .nav, .navbar-search, .navbar-form, etc -->
+				        <ul class="nav nav-pills">
+					        <li><a href="#">Home</a></li>
+					        <li><a href="#">Login/Logout</a></li>
+					        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Company Profile</a>
+					        	<ul class="dropdown-menu">
+						        	<li><a href="#">Login/Logout</a></li>
+						        	<li><a href="#">Login/Logout</a></li>
+					        	</ul>
+					        </li>
+				        </ul>
+				      </div>
+				 
+				    </div>
+				  </div>
+				</div>
+			</nav>
 	
 			<section id="login">
 				<h1>Login to Your Account</h1>
@@ -63,6 +96,23 @@
 						<input type="checkbox" value="remember-me"> Remember me
 					</label>
 					<button class="btn btn-large btn-primary" type="submit">Sign in</button>
+				</form>
+			</section>
+			
+			<section id="addUser">
+				<h1>Add a User</h1>
+				<form class="add-user">
+					<input type="text" class="input-block-level" placeholder="First Name">
+					<input type="text" class="input-block-level" placeholder="Last Name">
+					<input type="text" class="input-block-level" placeholder="Phone Number">
+					<input type="text" class="input-block-level" placeholder="City">
+					<input type="text" class="input-block-level" placeholder="State">
+					<input type="text" class="input-block-level" placeholder="Address">
+					<input type="text" class="input-block-level" placeholder="Zipcode">
+					<input type="text" class="input-block-level" placeholder="Birthday">
+					<input type="text" class="input-block-level" placeholder="Employment Start Date">
+					<input type="text" class="input-block-level" placeholder="Role">
+					<button class="btn btn-large btn-primary" type="submit">Add</button>
 				</form>
 			</section>
 	
