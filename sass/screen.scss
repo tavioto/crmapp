@@ -1,0 +1,151 @@
+/* BASE TEMPLATE
+* Copyright 2013 */
+
+// Imports - Must stay at top
+//////////////////////////////////////////////////////////
+
+$legacy-support-for-ie: true;
+@import "compass/reset";
+@import "compass";
+@import "compass/css3";
+@import "../sass/base";
+
+//- FOR DOCUMENTATION ON MIXINS & THEIR USE, PLEASE VISIT:
+//- http://compass-style.org/reference/compass/
+
+
+
+
+// Typography Presets
+//////////////////////////////////////////////////////////
+
+h1 {
+	color: $black;
+	//font-family: Arial; // REPLACE WTIH FONT STACK
+	@include adjust-font-size-to(68px);
+}
+
+h2 {
+	color: $black;
+	@include adjust-font-size-to(40px);
+	margin-bottom: 5px;
+}
+
+h3 {
+	color: $black;
+	@include adjust-font-size-to(36px);
+	margin-bottom: 5px;
+}
+
+h5 {
+	color: $black;
+	//font-family: Arial; // REPLACE WTIH FONT STACK
+}
+
+h6 {
+	color: $grey;
+	@include adjust-font-size-to(12px);
+	text-transform: uppercase;
+}
+
+p {
+	color: $grey;
+	@include adjust-font-size-to(18px);
+}
+
+
+a {
+	@include link-colors($grey, $black, $black);
+}
+
+
+
+// Structure
+/////////////////////////////////////////////////////////
+
+* {
+	@include box-sizing("border-box");
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust:none;
+
+	&:focus {
+		//outline: none; OPTIONAL
+	}
+}
+
+.clearfix::before,
+.clearfix::after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+//- CLEARFIX FALLBACK - Use: <div class="clear"></div> after floated elements if clearfix class fails
+.clear {
+	clear: both;
+}
+
+.form-signin {
+  max-width: 300px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  .form-signin-heading, .checkbox {
+    margin-bottom: 10px;
+  }
+}
+
+
+//FORMS
+
+input {
+	&[type="text"], &[type="password"] {
+		font-size: 16px;
+		height: auto;
+		margin-bottom: 15px;
+		padding: 7px 9px;
+	}
+}
+@import "../sass/grid";
+
+// Main
+////////////////////////////////////////////////////////
+
+body {
+	//font-family: Arial; // REPLACE WTIH FONT STACK
+	//background-color: $grey;
+}
+
+.container {
+
+}
+
+nav {
+
+}
+
+section {
+
+}
+
+footer {
+
+}
+
+// Responsive - Must stay at bottom
+////////////////////////////////////////////////////////
+@import "../sass/responsive";
