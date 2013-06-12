@@ -1,3 +1,22 @@
+<?php 
+	require_once("includes/config.php");
+	require_once("includes/functions.php");
+	 
+    $db = new PDO("mysql:host=".DBHOST.";dbname=".DBNAME, DBUSER, DBPASS);
+    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+
+    $auth = new Auth($db);
+    $log = -1;
+	if(isPost()){
+		if($auth->validUser($_POST)){
+			$log = 1;
+			$auth->loggedUser();
+		}else{
+			$log = 0;
+		}
+	}
+	
+?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -50,3 +69,18 @@
 
 	</head>
 	<body>
+	
+		<div class="container">
+		
+			<section id="login">
+				<h1>Login to Your Account</h1>
+				<form class="form-signin" action="" method="post">
+					<h2 class="form-signin-heading">Please sign in</h2>
+					<input type="text" class="input-block-level" placeholder="Email address" name="username" id="username">
+					<input type="password" class="input-block-level" placeholder="Password" name="password" id="password">
+					<label class="checkbox">
+						<input type="checkbox" value="remember-me"> Remember me
+					</label>
+					<button class="btn btn-large btn-primary" type="submit">Sign in</button>
+				</form>
+			</section>

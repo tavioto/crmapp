@@ -17,7 +17,8 @@
 		}
 		
 		public function validUser($data){
-			$username = $data['login'];			
+			
+			$username = $data['username'];			
 			$password = md5($data['password']);			
 			$sql = "SELECT * FROM users WHERE username = ? AND password = ?";
 			$login = $this->db->prepare($sql);
@@ -27,8 +28,8 @@
 			if($rows){
 				session_start();
 				$_SESSION['loggedUser'] = 'logged';
-				$_SESSION['userName'] = $rows[0]->firstname." ".$rows[0]->lastname;
-				$_SESSION['userType'] = $rows[0]->userType;
+				$_SESSION['userName'] = $rows[0]->name;
+				$_SESSION['userId'] = $rows[0]->id;
 					
 				return true;
 			}
