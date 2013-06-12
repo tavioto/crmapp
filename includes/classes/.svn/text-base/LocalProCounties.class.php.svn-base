@@ -1,0 +1,24 @@
+<?php
+
+class LocalProCounties extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'LocalProCounties';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->Id;
+    }
+     
+    protected function setId ($id) {
+        $this->Id = $id;
+    }
+ 
+     
+    
+}
+
+?>

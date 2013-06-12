@@ -1,0 +1,24 @@
+<?php
+
+class LenderCounties extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'LenderCounties';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->Id;
+    }
+     
+    protected function setId ($id) {
+        $this->Id = $id;
+    }
+ 
+     
+    
+}
+
+?>

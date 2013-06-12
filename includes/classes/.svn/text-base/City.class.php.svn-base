@@ -1,0 +1,28 @@
+<?php
+
+class City extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'City';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->CityId;
+    }
+     
+    protected function setId ($id) {
+        $this->CityId = $id;
+    } 
+    
+    public function delete($id){
+	    $sql = "DELETE FROM City WHERE CityId = ?";
+        $stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($id));
+		$stmt->closeCursor();
+    }
+}
+
+?>

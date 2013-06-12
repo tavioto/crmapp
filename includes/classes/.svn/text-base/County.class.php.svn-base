@@ -1,0 +1,28 @@
+<?php
+
+class County extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'County';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->CountyId;
+    }
+     
+    protected function setId ($id) {
+        $this->CountyId = $id;
+    } 
+    
+    public function delete($id){
+	    $sql = "DELETE FROM County WHERE CountyId = ?";
+        $stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($id));
+		$stmt->closeCursor();
+    }
+}
+
+?>

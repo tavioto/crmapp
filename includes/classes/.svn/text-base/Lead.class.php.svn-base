@@ -1,0 +1,24 @@
+<?php
+
+class Lead extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'Lead';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->LeadId;
+    }
+     
+    protected function setId ($id) {
+        $this->LeadId = $id;
+    }
+ 
+     
+    
+}
+
+?>

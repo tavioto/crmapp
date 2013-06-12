@@ -1,0 +1,24 @@
+<?php
+
+class AgentCounties extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'AgentCounties';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->Id;
+    }
+     
+    protected function setId ($id) {
+        $this->Id = $id;
+    }
+ 
+     
+    
+}
+
+?>

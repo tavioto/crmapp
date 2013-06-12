@@ -1,0 +1,430 @@
+<?php
+
+class Clients extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = NULL;
+ 
+    // Accessors
+    public function getId () {
+        return $this->id;
+    }
+     
+    protected function setId ($id) {
+        $this->id = $id;
+    }
+    
+    public function getActiveClients(){
+	    $sql = "SELECT 
+				
+					employee_id, 
+					employee_name,
+					type,
+					sales,
+					setup_fee,
+					recurring_billing,
+					created_on,
+					status 
+					
+				
+				FROM
+				
+				(
+				
+					SELECT
+						AgentID as employee_id,
+						ContactName as employee_name, 
+						'Agent' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						Agent 
+					
+					WHERE
+					
+						DATE_SUB(CURDATE(),INTERVAL 30 DAY) <= CreatedOn
+					
+					AND
+						
+						AccountStatus = 'Paid'
+					
+					
+					GROUP BY employee_id
+				
+					UNION
+				
+					SELECT
+						ExpertID as employee_id,
+						ContactName as employee_name, 
+						'Lender' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						Expert 
+					
+					WHERE
+					
+						DATE_SUB(CURDATE(),INTERVAL 30 DAY) <= CreatedOn
+					
+					AND
+						
+						AccountStatus = 'Paid'
+					
+					GROUP BY employee_id
+				
+					UNION
+					
+					SELECT
+						LocalProId as employee_id,
+						ContactName as employee_name, 
+						'LocalPro' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						LocalPro 
+					
+					WHERE
+					
+						DATE_SUB(CURDATE(),INTERVAL 30 DAY) <= CreatedOn
+					
+					AND
+						
+						AccountStatus = 'Paid'
+					
+					GROUP BY employee_id
+					
+				) as t
+				
+				GROUP BY employee_id";
+		
+		$data = $this->conn->query($sql);
+		return $data->fetchAll();
+
+    }
+    
+    public function getInactiveClients(){
+	    $sql = "SELECT 
+				
+					employee_id, 
+					employee_name,
+					type,
+					sales,
+					setup_fee,
+					recurring_billing,
+					created_on,
+					status 
+					
+				
+				FROM
+				
+				(
+				
+					SELECT
+						AgentID as employee_id,
+						ContactName as employee_name, 
+						'Agent' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						Agent 
+					
+					WHERE
+					
+						AccountStatus = 'Inactive'
+					
+					
+					GROUP BY employee_id
+				
+					UNION
+				
+					SELECT
+						ExpertID as employee_id,
+						ContactName as employee_name, 
+						'Lender' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						Expert 
+					
+					WHERE
+						
+						AccountStatus = 'Inactive'
+					
+					GROUP BY employee_id
+				
+					UNION
+					
+					SELECT
+						LocalProId as employee_id,
+						ContactName as employee_name, 
+						'LocalPro' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						LocalPro 
+					
+					WHERE
+
+						AccountStatus = 'Inactive'
+					
+					GROUP BY employee_id
+					
+				) as t
+				
+				GROUP BY employee_id";
+		
+		$data = $this->conn->query($sql);
+		return $data->fetchAll();
+
+    }
+    
+    public function getRejectedDayClients($date){
+    	//echo $date;die;
+    	//$date = date("Y-m-d", strtotime($date));
+	    $sql = "SELECT 
+				
+					employee_id, 
+					employee_name,
+					type,
+					sales,
+					setup_fee,
+					recurring_billing,
+					created_on,
+					status 
+					
+				
+				FROM
+				
+				(
+				
+					SELECT
+						AgentID as employee_id,
+						ContactName as employee_name, 
+						'Agent' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						Agent 
+					
+					WHERE
+					
+						date_format(ModifiedOn, '%Y-%m-%d') = '$date'
+					
+					AND
+						
+						AccountStatus = 'Rejected'
+					
+					
+					GROUP BY employee_id
+				
+					UNION
+				
+					SELECT
+						ExpertID as employee_id,
+						ContactName as employee_name, 
+						'Lender' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						Expert 
+					
+					WHERE
+					
+						date_format(ModifiedOn, '%Y-%m-%d') = '$date'
+					
+					AND
+						
+						AccountStatus = 'Rejected'
+					
+					GROUP BY employee_id
+				
+					UNION
+					
+					SELECT
+						LocalProId as employee_id,
+						ContactName as employee_name, 
+						'LocalPro' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						LocalPro 
+					
+					WHERE
+					
+						date_format(ModifiedOn, '%Y-%m-%d') = '$date'
+					
+					AND
+						
+						AccountStatus = 'Rejected'
+					
+					GROUP BY employee_id
+					
+				) as t
+				
+				GROUP BY employee_id";
+		
+		$data = $this->conn->query($sql);
+		return $data->fetchAll();
+
+    }
+    
+     public function getRejectedMonthClients($month, $year){
+    	
+    	$date = $year."-".$month;
+	    $sql = "SELECT 
+				
+					employee_id, 
+					employee_name,
+					type,
+					sales,
+					setup_fee,
+					recurring_billing,
+					created_on,
+					status 
+					
+				
+				FROM
+				
+				(
+				
+					SELECT
+						AgentID as employee_id,
+						ContactName as employee_name, 
+						'Agent' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						Agent 
+					
+					WHERE
+					
+						date_format(ModifiedOn, '%Y-%m') = '$date'
+					
+					AND
+						
+						AccountStatus = 'Rejected'
+					
+					
+					GROUP BY employee_id
+				
+					UNION
+				
+					SELECT
+						ExpertID as employee_id,
+						ContactName as employee_name, 
+						'Lender' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						Expert 
+					
+					WHERE
+					
+						date_format(ModifiedOn, '%Y-%m') = '$date'
+					
+					AND
+						
+						AccountStatus = 'Rejected'
+					
+					GROUP BY employee_id
+				
+					UNION
+					
+					SELECT
+						LocalProId as employee_id,
+						ContactName as employee_name, 
+						'LocalPro' as type, 
+						CreatedBy as sales,
+						SetUpAmount as setup_fee,
+						RecurringBilling as recurring_billing,
+						CreatedOn as created_on,
+						AccountStatus as status
+						
+					FROM 
+					
+						LocalPro 
+					
+					WHERE
+					
+						date_format(ModifiedOn, '%Y-%m') = '$date'
+					
+					AND
+						
+						AccountStatus = 'Rejected'
+					
+					GROUP BY employee_id
+					
+				) as t
+				
+				GROUP BY employee_id";
+		
+		$data = $this->conn->query($sql);
+		return $data->fetchAll();
+
+    }
+
+
+}
+?>
+
+
+
+
+

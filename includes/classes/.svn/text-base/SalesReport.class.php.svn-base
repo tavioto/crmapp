@@ -1,0 +1,204 @@
+<?php
+
+class SalesReport extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = NULL,
+        $valid_report_types = array('daily', 'monthly', 'daterange');
+ 
+    public function __construct ($params = null) {
+    	parent::__construct();  // Call the Model::__construct() method
+    	
+    	if($params!=NULL && is_array($params)){
+	    	if(!in_array($params['report_type'], $this->valid_report_types)){
+		    	throw new Exception('report_type must be one of: '.implode(',', $this->valid_report_types));
+	    	}else{
+	    		$this->report_type = $params['report_type'];
+		    	switch($params['report_type']){
+			    	case 'daily':
+			    					if(!strtotime($params['date'])){
+				    					throw new Exception('date must be a valid date string');
+				    					return;
+			    					}
+			    					$this->date = $params['date'];		
+			    					break;
+			    					
+			    	case 'monthly':
+			    					if(!in_array($params['month'], range(1, 12))){
+				    					throw new Exception('month must be a number in the range: 1 - 12');
+			    						return;
+			    					}
+			    					$this->month = $params['month'];
+			    					
+			    					if($params['year'] < 2010){ // Hard coded because we don't know for sure when data started, db says 2012 but I'm going for sure using 2010
+				    					throw new Exception('year must be >=2010');
+				    					return;
+			    					}
+			    					$this->year = $params['year'];
+			    					break;
+			    					
+			    	case 'daterange':
+			    					if(!strtotime($params['start_date'])){
+				    					throw new Exception('start_date must be a valid date string');
+				    					return;
+			    					}
+			    					$this->start_date = $params['start_date'];
+			    					
+			    					if(!strtotime($params['end_date'])){
+				    					throw new Exception('end_date must be a valid date string');
+				    					return;
+			    					}
+			    					$this->end_date = $params['end_date'];
+			    					break;
+		    	}
+	    	}
+    	}else{
+	    	throw new Exception('Invalid SalesReport init parameters, must be an array');
+    	}
+    }
+
+    // Accessors
+    public function getId () {
+        return $this->id;
+    }
+     
+    protected function setId ($id) {
+        $this->id = $id;
+    }
+
+    public function getTextualRange(){
+	    switch($this->report_type){
+		    case 'daily':
+		    				$textual = "Daily Sales Report for ".date('F d, Y', strtotime($this->date));
+		    				break;
+		    case 'monthly':
+		    				$textual = "Sales Report for ".date('F \of Y', strtotime("{$this->year}-{$this->month}-01"));
+		    				break;
+		    case 'daterange':
+		    				$textual = "Sales Report between ".date('F d, Y', strtotime($this->start_date))." and ".date('F d, Y', strtotime($this->end_date));
+		    				break;
+	    }
+	    
+	    return $textual;
+    }
+
+    public function getTotalSales(){
+	    switch($this->report_type){
+		    case 'daily':
+		    				$sql = "SELECT count(*) total FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') = date_format('{$this->date}','%Y-%m-%d')";
+		    				break;
+		    case 'monthly':
+		    				$sql = "SELECT count(*) total FROM SalesReport WHERE YEAR(CreatedOn) = {$this->year} AND MONTH(CreatedOn) = {$this->month}";
+		    				break;
+		    case 'daterange':
+		    				$sql = "SELECT count(*) total FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') BETWEEN date_format('{$this->start_date}','%Y-%m-%d') AND date_format('{$this->end_date}','%Y-%m-%d')";
+		    				break;
+	    }
+	    $data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->total;
+    }
+
+    public function getTotalDollars(){
+	    switch($this->report_type){
+		    case 'daily':
+		    				$sql = "SELECT (sum(SetupAmount) + sum(RecurringBilling)) as total FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') = date_format('{$this->date}','%Y-%m-%d')";
+		    				break;
+		    case 'monthly':
+		    				$sql = "SELECT (sum(SetupAmount) + sum(RecurringBilling)) as total FROM SalesReport WHERE YEAR(CreatedOn) = {$this->year} AND MONTH(CreatedOn) = {$this->month}";
+		    				break;
+		    case 'daterange':
+		    				$sql = "SELECT (sum(SetupAmount) + sum(RecurringBilling)) as total FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') BETWEEN date_format('{$this->start_date}','%Y-%m-%d') AND date_format('{$this->end_date}','%Y-%m-%d')";
+		    				break;
+	    }
+	    
+	    $data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->total;
+	    
+    }
+    
+    public function getTotalSetupFee(){
+	    switch($this->report_type){
+		    case 'daily':
+		    				$sql = "SELECT (sum(SetupAmount)) as total FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') = date_format('{$this->date}','%Y-%m-%d')";
+		    				break;
+		    case 'monthly':
+		    				$sql = "SELECT (sum(SetupAmount)) as total FROM SalesReport WHERE YEAR(CreatedOn) = {$this->year} AND MONTH(CreatedOn) = {$this->month}";
+		    				break;
+		    case 'daterange':
+		    				$sql = "SELECT (sum(SetupAmount)) as total FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') BETWEEN date_format('{$this->start_date}','%Y-%m-%d') AND date_format('{$this->end_date}','%Y-%m-%d')";
+		    				break;
+	    }
+	    
+	    $data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->total;
+	    
+    }
+    
+    public function getTotalRecurringBilling(){
+	    switch($this->report_type){
+		    case 'daily':
+		    				$sql = "SELECT (sum(RecurringBilling)) as total FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') = date_format('{$this->date}','%Y-%m-%d')";
+		    				break;
+		    case 'monthly':
+		    				$sql = "SELECT (sum(RecurringBilling)) as total FROM SalesReport WHERE YEAR(CreatedOn) = {$this->year} AND MONTH(CreatedOn) = {$this->month}";
+		    				break;
+		    case 'daterange':
+		    				$sql = "SELECT (sum(RecurringBilling)) as total FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') BETWEEN date_format('{$this->start_date}','%Y-%m-%d') AND date_format('{$this->end_date}','%Y-%m-%d')";
+		    				break;
+	    }
+	    
+	    $data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->total;
+	    
+    }
+
+    public function getWebsiteLeads(){
+	   	switch($this->report_type){
+		    case 'daily':
+		    				$sql = "SELECT count(*) total FROM Lead WHERE date_format(CreatedOn, '%Y-%m-%d') = date_format('{$this->date}','%Y-%m-%d')";
+		    				break;
+		    case 'monthly':
+		    				$sql = "SELECT count(*) total FROM Lead WHERE YEAR(CreatedOn) = {$this->year} AND MONTH(CreatedOn) = {$this->month}";
+		    				break;
+		    case 'daterange':
+		    				$sql = "SELECT count(*) total FROM Lead WHERE date_format(CreatedOn, '%Y-%m-%d') BETWEEN date_format('{$this->start_date}','%Y-%m-%d') AND date_format('{$this->end_date}','%Y-%m-%d')";
+		    				break;
+	    }
+	    
+	    
+	    $data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->total;
+    }
+
+    public function getWebsiteVisits(){
+	    return 0;
+    }
+
+    public function getSalesDetails(){
+	   	switch($this->report_type){
+		    case 'daily':
+		    				$sql = "SELECT * FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') = date_format('{$this->date}','%Y-%m-%d')";
+		    				break;
+		    case 'monthly':
+		    				$sql = "SELECT * FROM SalesReport WHERE YEAR(CreatedOn) = {$this->year} AND MONTH(CreatedOn) = {$this->month}";
+		    				break;
+		    case 'daterange':
+		    				$sql = "SELECT * FROM SalesReport WHERE date_format(CreatedOn, '%Y-%m-%d') BETWEEN date_format('{$this->start_date}','%Y-%m-%d') AND date_format('{$this->end_date}','%Y-%m-%d')";
+		    				break;
+	    }
+	    
+	    
+	    $rs = $this->conn->query($sql);
+    	return($rs->fetchAll());
+    }
+
+}                                                             
+
+?>

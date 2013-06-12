@@ -1,0 +1,43 @@
+<?php
+
+// http://www.profilepicture.co.uk/php-mvc-model-class/
+
+/**
+ * User - Administrator/Moderator/Member
+ *
+ * @author Phil Parsons
+ */
+class AreaReport extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = NULL;
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->id;
+    }
+     
+    protected function setId ($id) {
+        $this->id = $id;
+    }
+    
+    public function Primary($countyId){
+    	
+	    	$sql = "SELECT CountyId, Name, a.AgentId, a.ContactName as AgentName, lp.LocalProId, lp.ContactName as LocalProName, LenderId, le.ContactName as LenderName ";
+	    	$sql .= "FROM CountyPrimaryPeople cpp LEFT JOIN Agent a ON cpp.AgentId = a.AgentId LEFT JOIN LocalPro lp ON cpp.LocalProId = lp.LocalProId "; 
+	    	$sql .= "LEFT JOIN Expert le ON cpp.LenderId = le.ExpertId WHERE CountyId = ?";
+	        $stmt = $this->conn->prepare($sql);
+	        $stmt->execute(array($countyId));	        
+	        $counties = $stmt->fetchAll();
+	        return $counties;
+	        
+	        
+    }
+ 
+}
+
+?>
+

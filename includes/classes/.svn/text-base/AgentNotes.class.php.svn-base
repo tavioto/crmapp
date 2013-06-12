@@ -1,0 +1,32 @@
+<?php
+
+class AgentNotes extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'AgentNotes';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->AgentNoteId;
+    }
+     
+    protected function setId ($id) {
+        $this->AgentNoteId = $id;
+    }
+    
+    public function getDateOld($id){
+    	$sql = "SELECT * FROM AgentNotes WHERE AgentId = ? ORDER BY CreatedDate ASC LIMIT 1";
+	    $stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($id));
+		$dated = $stmt->fetchAll();
+		return $dated;
+    }
+ 
+     
+    
+}
+
+?>

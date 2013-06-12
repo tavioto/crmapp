@@ -1,0 +1,43 @@
+<?php
+
+class CancellationQueue extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'CancellationQueue';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->id;
+    }
+     
+    protected function setId ($id) {
+        $this->id = $id;
+    }
+    
+    public function getCancellationCurrent(){
+	     $sql = "SELECT * FROM CancellationQueue WHERE (DAY(CancellationRequest)) = (DAY(CURDATE())) AND YEAR(CancellationRequest) = YEAR(CURDATE()) AND MONTH(CancellationRequest) = MONTH(CURDATE()) ORDER BY CancellationDate ASC";
+	     $data = $this->conn->query($sql);
+	     return $data->fetchAll();
+    }
+    
+    public function getCancellationByDate($month, $year){
+    	if($month > 0 && $month < 10){
+	    	$date = $year."-0".$month;
+    	}
+    	else{
+	    	$date = $year."-".$month;	
+    	}
+    	
+	    $sql = "SELECT * FROM CancellationQueue WHERE date_format(CancellationDate, '%Y-%m') = '$date' ORDER BY CancellationDate ASC";
+	    $data = $this->conn->query($sql);
+	    return $data->fetchAll();
+    }
+ 
+     
+    
+}
+
+?>

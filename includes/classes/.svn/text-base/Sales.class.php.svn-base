@@ -1,0 +1,84 @@
+<?php
+
+class Sales extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'Sales';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->SalesEmployeeID;
+    }
+     
+    protected function setId ($id) {
+        $this->SalesEmployeeID = $id;
+    }
+ 
+    
+    public function getTotalSales(){
+	    $sql = "SELECT 				
+					employee_id, 
+					employee_name, 
+					sum(lead_count) lead_count,
+					sum(sales) sales
+				
+				FROM
+				
+				(
+				
+					SELECT
+						employee_id, 
+						employee_name, 
+						count(agent_id) lead_count,
+						sum(sales) sales
+					FROM 
+					
+						LeadsAgentsEmployees 
+					
+					GROUP BY employee_id
+				
+					UNION
+				
+					SELECT
+						employee_id, 
+						employee_name, 
+						count(lender_id) lead_count,
+						sum(sales) sales
+					FROM 
+					
+						LeadsLendersEmployees 
+					
+					GROUP BY employee_id
+				
+					UNION
+					
+					SELECT
+						employee_id, 
+						employee_name, 
+						count(localpro_id) lead_count,
+						sum(sales) sales
+					FROM 
+					
+						LeadsLocalProsEmployees 
+					
+									
+					
+					GROUP BY employee_id
+					
+				) as t
+				
+				WHERE employee_id = {$this->getId()}
+				
+				GROUP BY employee_id";
+	    
+	    $data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->sales;
+    } 
+    
+}
+
+?>

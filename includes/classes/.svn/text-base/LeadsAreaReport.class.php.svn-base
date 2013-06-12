@@ -1,0 +1,89 @@
+<?php
+
+class LeadsAreaReport extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = NULL;
+
+
+    public function __construct ($params = null) {
+    	parent::__construct();  // Call the Model::__construct() method
+    	
+    	if($params!=NULL && is_array($params)){
+    	
+	    		$this->state_id    = $params['state_id'];
+	    		$this->county_id   = $params['county_id'];
+	    		
+	    		if($params['start_date'] || $params['end_date']){
+					if(!strtotime($params['start_date'])){
+						echo 'start_date must be a valid date string';
+						return;
+					}
+					$this->start_date = $params['start_date'];		    		
+
+					if(!strtotime($params['end_date'])){
+						echo 'end_date must be a valid date string';
+						return;
+					}
+					$this->end_date = $params['end_date'];
+
+	    		}else{
+		    		$this->end_date = date('Y-m-d');
+		    		$this->start_date = dateAdd($this->end_date, '-1 month');
+	    		}
+	    		
+				
+    	}else{
+	    	throw new Exception('Invalid LeadsAreaReport init parameters, must be an array');
+    	}
+    }
+
+ 
+    // Accessors
+    public function getId () {
+        return $this->id;
+    }
+     
+    protected function setId ($id) {
+        $this->id = $id;
+    }
+
+    public function getLeadsDetails(){
+	    $sql = "SELECT 
+					l.*,
+					c.Name as CountyName,
+					c.StateId,
+					s.StateName,
+					s.Abbrevation as StateAbbreviation
+				FROM 
+					Lead l
+					LEFT JOIN County c ON l.CountyId = c.CountyId
+					LEFT JOIN StateOrProvince s ON c.StateId = s.StateId
+				WHERE 1 ";
+		
+		
+		if($this->county_id){
+			$sql.="AND c.CountyId = {$this->county_id}";	
+		}elseif($this->state_id){
+			$sql.="AND c.StateId = {$this->state_id}";
+		}
+		
+		
+		
+		if($this->start_date && $this->end_date){
+			$end_date = dateAdd($this->end_date, '+1 day');
+			$sql.=" AND CreatedOn BETWEEN '{$this->start_date}' AND '{$end_date}'";
+		}
+	
+//		echo $sql;
+	    $data =  $this->conn->query($sql);
+    	$leadDetails = $data->fetchAll();
+
+		return $leadDetails;
+    }
+
+}                                                             
+
+?>

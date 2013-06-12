@@ -1,0 +1,32 @@
+<?php
+
+class LocalProNotes extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'LocalProNotes';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->LocalProNoteId;
+    }
+     
+    protected function setId ($id) {
+        $this->LocalProNoteId = $id;
+    }
+    
+     public function getDateOld($id){
+    	$sql = "SELECT * FROM LocalProNotes WHERE LocalProId = ? ORDER BY CreatedDate ASC LIMIT 1";
+	    $stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($id));
+		$dated = $stmt->fetchAll();
+		return $dated;
+    }
+ 
+     
+    
+}
+
+?>

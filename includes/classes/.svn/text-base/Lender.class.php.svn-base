@@ -1,0 +1,380 @@
+<?php
+
+// http://www.profilepicture.co.uk/php-mvc-model-class/
+
+/**
+ * User - Administrator/Moderator/Member
+ *
+ * @author Phil Parsons
+ */
+class Lender extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'Expert';
+ 
+    protected $has = array(
+    						/*
+'State'	=> array(
+    										'local_key' => 'StateId',
+    										'remote_key'=> 'State'
+    									),
+*/
+    						'CancellationQueue'	=> array(
+    												'query' => array(
+    																array(
+    																	'local_key'=>'Type',
+    																	'operator'=>'=',
+    																	'value'=>'Expert'
+    																),
+    																array(
+    																	'local_key'=>'id',
+    																	'operator'=>'=',
+    																	'remote_key'=>'ExpertID'
+    																)
+    															)
+    											)
+    					);
+    // Accessors
+    public function getId () {
+        return $this->ExpertID;
+    }
+     
+    protected function setId ($id) {
+        $this->ExpertID = $id;
+    }
+    
+    public function load ($where = array()) {
+    	parent::load($where);  // load the parent class' load
+    	
+    	// load code for this specific model
+    	
+    	$this->loadPrimaryCounties();
+    	$this->loadDefaultCounties();
+    	
+    }
+ 
+    public function CreditCard($num){
+	    $sql = "SELECT *, RIGHT(CardNumber, 4) CN FROM Expert WHERE RIGHT(CardNumber, 4) = '$num'";
+	    $data = $this->conn->query($sql);
+	    
+	    return $data->fetchAll();
+    }
+    
+    protected function loadPrimaryCounties(){
+    	if($this->primaryCounties==NULL){
+	    	$sql = "SELECT CountyId FROM ExpertRelatedCities WHERE ExpertId = ? AND IsPrimary = 1";
+	        $stmt = $this->conn->prepare($sql);
+	        $stmt->execute(array($this->getId()));
+	        
+	        $counties = $stmt->fetchAll();
+	        $this->primaryCounties = array();
+	        foreach($counties as $c){
+			    $this->primaryCounties[] = $c->CountyId;   
+	        }	        
+    	}
+    }
+    
+    
+    
+    protected function loadDefaultCounties(){
+    	if($this->defaultCounties==NULL){
+	    	$sql = "SELECT CountyId FROM ExpertRelatedCities WHERE ExpertId = ? AND IsPrimary = 0";
+	        $stmt = $this->conn->prepare($sql);
+	        $stmt->execute(array($this->getId()));
+	        
+	        $counties = $stmt->fetchAll();
+	        $this->defaultCounties = array();
+	        foreach($counties as $c){
+			    $this->defaultCounties[] = $c->CountyId;
+		        
+	        }
+    	}
+    }
+    
+  
+	public function save() {
+		parent::save();  // load the parent class' save
+		
+		// save code for this specific model
+		
+		//$this->savePrimaryCounties();
+		//$this->saveDefaultCounties();
+		
+		
+	}
+ 
+	
+	protected function savePrimaryCounties(){
+		if(empty($this->primaryCounties)){
+			$this->deletePrimaryCounties();
+		}else{
+			$counties = implode(',', $this->primaryCounties);
+			$this->conn->query("DELETE FROM ExpertRelatedCities WHERE ExpertId = {$this->getId()} AND Isprimary = 1");
+						
+			foreach($this->primaryCounties as $countyId){
+		        $this->saveCounty($countyId, 1);
+			}
+		}
+
+		
+		
+	}
+
+	protected function saveDefaultCounties(){
+		if($this->defaultCounties == NULL || count($this->defaultCounties)==0){
+			$this->deleteDefaultCounties();
+		}else{
+			$counties = implode(',', $this->defaultCounties);
+			$this->conn->query("DELETE FROM ExpertRelatedCities WHERE ExpertId = {$this->getId()} AND Isprimary = 0");
+
+			foreach($this->defaultCounties as $countyId){
+		        $this->saveCounty($countyId, 0);
+			}
+			
+		}
+	}
+
+	protected function saveCounty($countyId, $isPrimary){
+		$noPrimary = 0;
+		$agentCountyObj = new LenderCounties();
+		$totalCounties = $agentCountyObj->fetchAll(array( 
+														array('LenderId','=', $this->getId()), 
+														array('CountyId','=', $countyId), 
+														array('IsPrimary', '=', $isPrimary) 
+													)
+											);
+		if($isPrimary == 0){
+		$existCounties = $agentCountyObj->fetchAll(array(
+														array('CountyId', '=', $countyId),
+														array('Isprimary', '=', $noPrimary)
+													 )
+											);
+		if(count($existCounties)>0){
+			$this->conn->query("DELETE FROM ExpertRelatedCities WHERE CountyId = {$countyId} AND Isprimary = 0");
+			
+		}
+		}
+		if(count($totalCounties)==0){
+			$sql = "INSERT INTO ExpertRelatedCities (ExpertId, CountyId, IsPrimary, CreatedOn) VALUES (?, ?, ?, ?)";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute(array($this->getId(), $countyId, $isPrimary, date('Y-m-d H:i:s')));
+		}
+	}
+
+	protected function deletePrimaryCounties(){
+		
+    	$sql = "DELETE FROM ExpertRelatedCities WHERE ExpertId = ? AND IsPrimary = 1";
+        $stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($this->getId()));
+		$stmt->closeCursor();
+	}
+	
+	public function inactiveToActive($lenderId){
+		$cancelRequest = "NULL";
+		$cancellationDate = "NULL";
+		$sql = "UPDATE ExpertRelatedCities SET CancellationDate = ?, CancellationRequest = ? WHERE ExpertId = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(array($cancellationDate, $cancelRequest, $lenderId));
+	}
+
+	protected function deleteDefaultCounties(){
+		
+    	$sql = "DELETE FROM ExpertRelatedCities WHERE ExpertId = ? AND IsPrimary = 0";
+    	$stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($this->getId()));
+		$stmt->closeCursor();
+	}
+
+    public function getLeadSummary(){
+		$sql = "
+				SELECT
+					Color,
+					CountyId,
+					Name,
+					CASE (LC.IsPrimary) when 1 then 'Primary' when 0 then 'Default' end as Position,
+					CreatedOn,
+					(
+						SELECT
+							count(*)
+						FROM 
+							LeadsLendersEmployees LLE
+						WHERE 
+							lender_id = ?
+						AND lead_county_id = CountyId
+						AND
+							TIMESTAMPDIFF(DAY, lead_create_date ,CURDATE())<= 30
+					) as LeadCount
+				FROM
+					LenderCounties LC
+				WHERE
+
+					LenderId = ?";
+	/*
+$sql = "
+				SELECT
+							count(*) leadcount
+						FROM 
+							LeadsLendersEmployees LLE
+						WHERE 
+							lender_id = ?
+						AND
+							TIMESTAMPDIFF(DAY, lead_create_date ,CURDATE())<= 30;
+					LenderId = ?
+
+";
+*/
+					
+		$stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($this->getId(), $this->getId()));
+		
+		$leadSummary = $stmt->fetchAll();
+		return $leadSummary;
+	} 
+	
+	 public function getTotalLeadSummary(){
+		
+	$sql = "
+				SELECT
+							count(*) leadcount
+						FROM 
+							LeadsLendersEmployees LLE
+						WHERE 
+							lender_id = ?
+						AND
+							TIMESTAMPDIFF(DAY, lead_create_date ,CURDATE())<= 30;
+					LenderId = ?";
+					
+		$stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($this->getId(), $this->getId()));
+		
+		$leadSummary = $stmt->fetchAll();
+		return $leadSummary;
+	}
+
+	public function getCurrentTimeSpan(){
+		$day_of_month = date('d', strtotime($this->CreatedOn));
+		$current_day = date('d');
+		$current_month = date('m');
+		$current_year = date('Y');
+		
+		if($day_of_month>$current_day){
+			$end_date   = date('Y-m-d', mktime(0, 0, 0, $current_month, $day_of_month, $current_year));
+		}else{
+			$end_date   = date('Y-m-d', mktime(0,0,0,$current_month+1,$day_of_month,$current_year));
+		}
+		$start_date = dateAdd($end_date, '-1 month');
+		
+		return array($start_date, $end_date);
+	}
+
+	public function cancelCounty($countyId){
+		$cancelRequest = date("Y-m-d H:i:s");
+		$span = $this->getCurrentTimeSpan();
+		$cancellationDate = $span[1];
+		$sql = "UPDATE ExpertRelatedCities SET CancellationDate = ?, CancellationRequest = ? WHERE ExpertId = ? AND CountyId = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(array($cancellationDate, $cancelRequest, $this->getId(), $countyId));
+	}
+	
+	public function renewCounty($countyId){
+		$cancelRequest = "NULL";
+		$cancellationDate = "NULL";
+		$sql = "UPDATE ExpertRelatedCities SET CancellationDate = ?, CancellationRequest = ? WHERE ExpertId = ? AND CountyId = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(array($cancellationDate, $cancelRequest, $this->getId(), $countyId));
+	}
+	
+	public function editCancellationDate($countyId, $date, $person_id){
+		$cancelRequest = date("Y-m-d H:i:s");
+		$sql = "UPDATE ExpertRelatedCities SET CancellationDate = ?, CancellationRequest = ? WHERE ExpertId = ? AND CountyId = ?";
+		$stmt = $this->conn->prepare($sql);
+        $stmt->execute(array($date, $cancelRequest, $person_id, $countyId));
+        //test
+	}
+	
+	public function cancellAllCounties($personId){
+		$cancelRequest = date("Y-m-d H:i:s");
+		$date = date("Y-m-d H:i:s");
+		
+		$sqlCounties = "UPDATE ExpertRelatedCities SET CancellationDate = ?, CancellationRequest = ? WHERE ExpertId = ?";
+		$stmt = $this->conn->prepare($sqlCounties);
+		$stmt->execute(array($date, $cancelRequest, $personId));
+		
+		$status = "Inactive";
+		$sqlPerson = "UPDATE Expert SET AccountStatus = ? WHERE ExpertID = ?";
+		$stmt = $this->conn->prepare($sqlPerson);
+		$stmt->execute(array($status, $personId));
+		
+	}
+	
+	public function activeLender(){
+		$sql = "SELECT count(*) qtty FROM Expert WHERE AccountStatus = 'Paid'";
+		$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;
+	}
+	
+	public function inactiveLender(){
+		$sql = "SELECT count(*) qtty FROM Expert WHERE AccountStatus = 'Inactive'";
+		$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;
+	}
+	
+	public function rejectedLender(){
+		$sql = "SELECT count(*) qtty FROM Expert WHERE AccountStatus = 'Rejected'";
+		$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;
+	}
+	
+	public function RBActiveLender(){
+		$sql = "SELECT SUM(RecurringBilling) qtty FROM Expert WHERE AccountStatus = 'Paid'";
+		$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;
+	}
+	
+	public function RBInactiveLender(){
+		$sql = "SELECT SUM(RecurringBilling) qtty FROM Expert WHERE AccountStatus = 'Inactive'";
+		$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;
+	}
+	
+	public function RBRejectedLender(){
+		$sql = "SELECT SUM(RecurringBilling) qtty FROM Expert WHERE AccountStatus = 'Rejected'";
+		$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;
+	}
+	
+	public function lenderCountiesOperation($lenderId, $operation, $countyId, $countyType){
+		$date = date("Y-m-d H:i:s");
+		$cType = $countyType == 'primary' ? 1 : 0;
+		if($operation == 'add'){
+			$sql = "INSERT INTO ExpertRelatedCities (ExpertId, CountyId, Isprimary, CreatedOn) VALUES (?, ?, ?, ?)";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute(array($lenderId, $countyId, $cType, $date));
+		}elseif($operation == 'delete'){
+			$sql = "DELETE FROM ExpertRelatedCities WHERE ExpertId = ? AND CountyId = ? AND Isprimary = ?";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute(array($lenderId, $countyId, $cType));
+		}
+	}
+	
+	public function updateCountyDate($agentId, $date){
+		$sql = "UPDATE ExpertRelatedCities SET CreatedOn = ? WHERE ExpertId = ?";
+		$stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($date, $agentId));
+	}
+
+
+
+
+    
+}
+
+?>

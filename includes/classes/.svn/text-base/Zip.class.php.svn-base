@@ -1,0 +1,30 @@
+<?php
+
+class Zip extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'Zip';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->id;
+    }
+     
+    protected function setId ($id) {
+        $this->id = $id;
+    } 
+    
+    public function delete($id){
+	    $sql = "DELETE FROM Zip WHERE Id = ?";
+        $stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($id));
+		$stmt->closeCursor();
+    }
+    
+    
+}
+
+?>

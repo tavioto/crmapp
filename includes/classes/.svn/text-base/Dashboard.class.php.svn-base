@@ -1,0 +1,185 @@
+<?php
+
+class Dashboard extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = NULL;
+ 
+    // Accessors
+    public function getId () {
+        return $this->id;
+    }
+     
+    protected function setId ($id) {
+        $this->id = $id;
+    }
+
+    public function getPendingSales(){
+    	$sql = "SELECT COUNT(*) qtty FROM (
+					SELECT ExpertID id, ContactName name, CreatedOn, AccountStatus status, CreatedBy, 'Expert' identity FROM Expert WHERE AccountStatus = 'Pending'
+					UNION
+					SELECT AgentID id, ContactName name, CreatedOn, AccountStatus status, CreatedBy, 'Agent' identity FROM Agent WHERE AccountStatus = 'Pending'
+					UNION
+					SELECT LocalProId id, ContactName name, CreatedOn, AccountStatus status, CreatedBy, 'LocalPro' identity FROM LocalPro WHERE AccountStatus = 'Pending'					
+				) as t";
+    	$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;
+    }
+
+    public function getExperts(){
+	    $sql = "SELECT count(*) qtty FROM Expert WHERE AccountStatus = 'Paid'";
+    	$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;	    
+    }
+
+    public function getAgents(){
+	    $sql = "SELECT count(*) qtty FROM Agent WHERE AccountStatus = 'Paid'";
+    	$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;	    	    
+    }
+
+    public function getLocalPros(){
+	    $sql = "SELECT count(*) qtty FROM LocalPro WHERE AccountStatus = 'Paid'";
+    	$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;	    	    
+    }
+    
+    public function getHotAreaReportData($stateId = NULL){
+	    if($stateId==NULL){
+/*
+	    County.Name,Agent.ContactName,StateOrProvince.StateName,E.ContactName,LP.ContactName,County.CountyId,Agent.AgentId,E.ExpertId,LP.LocalProId,
+						AgentCity.IsPrimary,ERC.Isprimary,LPC.Isprimary,Agent.AccountStatus,E.AccountStatus,LP.AccountStatus
+*/
+			$sql = "SELECT            
+						StateOrProvince.StateName,
+						County.Color,
+						County.CountyId,
+						Count(County.Name) as LeadCount,
+						County.Name        
+					FROM 
+						StateOrProvince            
+						INNER JOIN County on StateOrProvince.StateId = County.StateId                  
+						LEFT JOIN Lead on Lead.CountyId = County.CountyId             
+					WHERE 
+						Lead.CreatedOn >= DATE_ADD(CURDATE(), INTERVAL -1 MONTH)  
+					GROUP BY 
+						County.CountyId     
+					
+					ORDER BY Count(County.Name) desc";		    
+	    }else{
+   			$sql = "SELECT            
+						StateOrProvince.StateName,
+						County.CountyId,
+						Count(County.Name) as LeadCount,
+						County.Name,
+					FROM 
+						StateOrProvince            
+						INNER JOIN County on StateOrProvince.StateId = County.StateId           
+						LEFT JOIN Lead on Lead.CountyId = County.CountyId           
+					WHERE 
+						Lead.CreatedOn >= DATE_ADD(CURDATE(), INTERVAL -1 MONTH)  
+						AND StateOrProvince.StateId = $stateId     
+					GROUP BY 
+						County.CountyId     
+					
+					ORDER BY Count(County.Name) desc";		    
+
+	    }
+	    
+    	$data = $this->conn->query($sql);
+    	return $data->fetchAll();
+    }
+
+
+
+    public function getTopProducers($date){
+    	$date = date("Y-m-d", strtotime($date));
+	    $sql = "SELECT 
+				
+					employee_id, 
+					employee_name, 
+					sum(lead_count) lead_count,
+					sum(sales) sales
+				
+				FROM
+				
+				(
+				
+					SELECT
+						employee_id, 
+						employee_name, 
+						count(agent_id) lead_count,
+						sum(sales) sales
+					FROM 
+					
+						LeadsAgentsEmployees 
+					
+					WHERE
+					
+						date_format(agent_create_date, '%Y-%m-%d') = '$date'
+					
+					
+					GROUP BY employee_id
+				
+					UNION
+				
+					SELECT
+						employee_id, 
+						employee_name, 
+						count(lender_id) lead_count,
+						sum(sales) sales
+					FROM 
+					
+						LeadsLendersEmployees 
+					
+					WHERE
+					
+						date_format(lender_create_date, '%Y-%m-%d') = '$date'
+					
+					
+					GROUP BY employee_id
+				
+					UNION
+					
+					SELECT
+						employee_id, 
+						employee_name, 
+						count(localpro_id) lead_count,
+						sum(sales) sales
+					FROM 
+					
+						LeadsLocalProsEmployees 
+					
+					WHERE
+					
+						date_format(localpro_create_date, '%Y-%m-%d') = '$date'
+					
+					
+					GROUP BY employee_id
+					
+				) as t
+				
+				GROUP BY employee_id
+				
+				ORDER BY sales DESC";
+		
+		$data = $this->conn->query($sql);
+		return $data->fetchAll();
+    }
+
+    public function getWebsiteLeads(){
+	   	$sql = "SELECT count(*) qtty FROM Lead";
+    	$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+    	return $qtty[0]->qtty;	
+    }
+
+}                                                             
+
+?>

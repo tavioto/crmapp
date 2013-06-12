@@ -1,0 +1,21 @@
+<?php
+
+class AvailableLocalProDefaultCounties extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'AvailableLocalProDefaultCounties';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->CountyId;
+    }
+     
+    protected function setId ($id) {
+        $this->CountyId = $id;
+    } 
+}
+
+?>

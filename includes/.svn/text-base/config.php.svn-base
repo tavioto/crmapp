@@ -1,0 +1,18 @@
+<?php
+
+define('BASE_PATH', dirname(__FILE__));
+define('CLASS_PATH', BASE_PATH."/classes");
+
+$srv = $_SERVER['SERVER_NAME'];
+if($srv == 'bhs-admin.com' || $srv == 'www.bhs-admin.com'){
+	define('DBHOST', "198.101.223.77");
+}elseif($srv == 'admin.dev.buyerhomesite.com'){
+	define('DBHOST', "173.45.254.147");
+}
+
+define('DBUSER', "appdbuser");
+define('DBPASS', "v2174x36417X35f");
+define('DBNAME', "appdb");
+
+
+?>

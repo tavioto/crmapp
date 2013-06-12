@@ -1,0 +1,86 @@
+<?php
+
+	function __autoload($class_name) {
+		$path = CLASS_PATH."/$class_name.class.php";
+		//echo "<br>loading: $path  ...";
+		if(file_exists($path)){
+	    	require_once($path);		
+	    	//echo "...Loaded <br>";
+		}else{
+			echo "Could not load: Class: $class_name. ($path)<br>";
+		}
+    }
+    
+	function isPost(){
+		if(isset($_POST) && !empty($_POST)){
+			return true;
+		}
+		return false;
+	}
+
+	function getParam($name){
+		if(isset($_POST[$name]) && $_POST[$name]!=''){
+			return addslashes($_POST[$name]);
+		}
+		if(isset($_GET[$name]) && $_GET[$name]!=''){
+			return addslashes($_GET[$name]);
+		}
+		return false;
+	}
+
+
+	function dateAdd($date, $interval, $format='Y-m-d H:i:s'){
+		$newdate = strtotime ( $interval , strtotime ( $date ) ) ;
+		$newdate = date ( $format , $newdate );
+		
+		return $newdate;
+	}
+	
+	function resize_image($src_file, $dest_file, $new_size){
+	$imginfo = @getimagesize($src_file);
+	if ($imginfo == null)
+		return false;
+	// height/width
+	$srcWidth = $imginfo[0];
+	$srcHeight = $imginfo[1];
+
+	$ratio = max($srcWidth, $srcHeight) / $new_size;
+	$ratio = max($ratio, 1.0);
+	$destWidth = (int)($srcWidth / $ratio);
+	$destHeight = (int)($srcHeight / $ratio);
+
+	if ($imginfo[2] == 2)
+		$src_img = @imagecreatefromjpeg($src_file);
+	else 
+		$src_img = @imagecreatefrompng($src_file);
+	if (!$src_img){
+		$ERROR = "The image you have uploaded is corrupted";
+		@unlink($src_file);
+		return false;
+	}
+	$dst_img = imagecreatetruecolor($destWidth, $destHeight);
+	imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $destWidth, (int)$destHeight, $srcWidth, $srcHeight);
+	imagejpeg($dst_img, $dest_file, 100);
+	imagedestroy($src_img);
+	imagedestroy($dst_img);
+
+	// We check that the image is valid
+	$imginfo = @getimagesize($dest_file);
+	if ($imginfo == null){
+		$ERROR = "Unable to create thumbnail or reduced size image.";
+		@unlink($src_file);
+		return false;
+	} else {
+		return true;
+	}
+}	
+
+function checkHttp($url){
+	    if(preg_match('#^http://.*#s', trim($url))){
+	    } else {
+	    $url = "http://".$url;
+	    }
+	 return $url;
+	}
+
+?>

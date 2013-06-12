@@ -1,0 +1,36 @@
+<?php
+
+// http://www.profilepicture.co.uk/php-mvc-model-class/
+
+/**
+ * User - Administrator/Moderator/Member
+ *
+ * @author Phil Parsons
+ */
+class Country extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'Country';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->CountryId;
+    }
+     
+    protected function setId ($id) {
+        $this->CountryId = $id;
+    }
+ 
+     
+   public function delete($id){
+	    $sql = "DELETE FROM Country WHERE CountryId = ?";
+        $stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($id));
+		$stmt->closeCursor();
+    } 
+}
+
+?>

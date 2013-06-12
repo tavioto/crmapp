@@ -1,0 +1,30 @@
+<?php
+
+class Testimonial extends Model {
+ 
+    // Properties
+    protected
+        $id = 0,
+        $table = 'testimonials';
+ 
+ 
+    // Accessors
+    public function getId () {
+        return $this->id;
+    }
+     
+    protected function setId ($id) {
+        $this->id = $id;
+    }
+    
+    public function deleteTestimonials($idTesti){
+    	$sql = "DELETE FROM testimonials WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+		$stmt->execute(array($idTesti));
+		$stmt->closeCursor();
+	}
+
+ 
+}
+
+?>
