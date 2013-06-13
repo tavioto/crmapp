@@ -38,7 +38,9 @@
 		<!-- JS LIBRARY -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
-
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/plugins.js"></script>
 		<!-- IE CONDITIONALS -->
 		<!--[if IE]>
 			<link rel="shortcut icon" href="icons/favicon.ico" />
@@ -47,6 +49,8 @@
 			<link href="stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
 			<script type="text/javascript" src="js/modernizr.2.6.2.js"></script>
 		<![endif]-->
+		
+		
 
 	</head>
 	<body>
