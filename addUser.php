@@ -7,7 +7,10 @@ if(!$auth->userLogged()){
 
 require_once('inc/header.php'); 
 require_once('inc/topnav.php'); 
+
+extract($_REQUEST);
 $saved = 0;
+$id_company = $_SESSION["id_company"];
 if(isset($_POST['action']) && $_POST['action'] != ""){
 		
 		extract($_POST);
@@ -21,28 +24,58 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 				$user->password = md5($password);
 				$user->mail = $email;
 				$user->username = $username;
+				$user->id_role = $role;
+				$user->id_company = $id_company;
+				$user->state = $state;
+				$user->city = $city;
+				$user->address = $address;
+				$user->zip = $zip;
+				$user->phone = $phone;
+				$user->birthday = $birthday;
+				$user->emp_start_day = $start_date;
+				$user->emp_type = $emp_type;
+				$user->hourly_pay = $hourly_pay;
+				$user->hourly_charge = $hourly_charge; 
 				$user->save();
 	        	$saved = 1;
 	        	
 		break;
 		case "edit":
-				
+				$user = new User($user_id);
+				$user->first_name = $first_name;
+				$user->last_name = $last_name;
+				$user->mail = $email;
+				$user->username = $username;
+				$user->id_role = $role;
+				$user->id_company = $id_company;
+				$user->state = $state;
+				$user->city = $city;
+				$user->address = $address;
+				$user->zip = $zip;
+				$user->phone = $phone;
+				$user->birthday = $birthday;
+				$user->emp_start_day = $start_date;
+				$user->emp_type = $emp_type;
+				$user->hourly_pay = $hourly_pay;
+				$user->hourly_charge = $hourly_charge; 
+				$user->save();
+	        	$saved = 1;
 
 		break;
 	}
 }
 
-extract($_REQUEST);
+
 if(isset($user_id)){
 	$user = new User($user_id);	
 }
 
 ?>
 <section id="addUser">
-	<h1>Add a User</h1>
+	<h1><?php if(isset($user_id)){echo "Edit";}else{echo "Add";}?> a User</h1>
 	<?php if($saved == 1){?>
 	<div class="alert alert-success">
-		<strong>Done!</strong> The User was created.
+		<strong>Done!</strong> The User was <?php if(isset($user_id)){echo "Edited";}else{echo "Created";}?>.
 	</div>
 	<?php } ?>
 	<form class="add-user" action="" method="post">
@@ -74,7 +107,7 @@ if(isset($user_id)){
 			<option value="1" <?php if($user->id_role == 1){echo "selected";}?>>Administrator</option>
 		</select>
 		<input type="hidden" class="input-block-level" value="<?php if(!$user_id){echo "add";}else{echo "edit";}?>" name="action">
-		<button class="btn btn-large btn-primary" type="submit">Add</button>
+		<button class="btn btn-large btn-primary" type="submit"><?php if(isset($user_id)){echo "Edit";}else{echo "Add";}?></button>
 	</form>
 </section>
 <?php require_once('inc/footer.php'); ?>
