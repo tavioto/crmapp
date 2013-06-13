@@ -70,6 +70,9 @@ if(isset($user_id)){
 	$user = new User($user_id);	
 }
 
+$state_model = new State();
+$state = $state_model->fetchAll();
+
 ?>
 <section id="addUser">
 	<h1><?php if(isset($user_id)){echo "Edit";}else{echo "Add";}?> a User</h1>
@@ -83,6 +86,9 @@ if(isset($user_id)){
 		<input type="text" class="input-block-level" placeholder="Last Name" name="last_name" id="last_name" required value="<?php echo $user->last_name;?>">
 		<select name="state" id="state" class="input-block-level">
 			<option value="">--State--</option>
+			<?php foreach($state as $st){?>
+			<option value="<?php echo $st->name; ?>" <?php if($user->state == $st->name){echo "selected";}?>><?php echo $st->name; ?></option>
+			<?php } ?>
 		</select>
 		<select name="city" id="city" class="input-block-level">
 			<option value="">--City--</option>
