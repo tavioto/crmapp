@@ -52,6 +52,9 @@
 
 	</head>
 	<body>
+	<?php 
+		$company = new Company($_SESSION['id_company']);
+	?>
 		<div class="header">
-			<h1>$customerName here</h1>
+			<h1><?php echo $company->name; ?></h1>
 		</div>

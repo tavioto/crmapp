@@ -26,15 +26,23 @@
 			$rows = $login->fetchAll();
 			
 			if($rows){
-				session_start();
-				$_SESSION['loggedUser'] = 'logged';
-				$_SESSION['userName'] = $rows[0]->name;
-				$_SESSION['userId'] = $rows[0]->id;
-					
-				return true;
+				if($rows[0]->active == 1){
+					session_start();
+					$_SESSION['loggedUser'] = 'logged';
+					$_SESSION['userName'] = $rows[0]->name;
+					$_SESSION['userId'] = $rows[0]->id;
+					$_SESSION['id_company'] = $rows[0]->id_company;
+					$_SESSION['id_role'] = $rows[0]->id_role;
+					return true;
+				}else{
+					echo "<div class='alert alert-error'>Account is inactive</div>";
+					return false;
+				}
+				
 			}
 			else
 			{
+				echo "<div class='alert alert-error'>Username or Password is incorrect</div>";
 				return false;
 			}
 			
