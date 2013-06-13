@@ -57,7 +57,9 @@ $(document).ready(function(){
 		$("#delete_record").show();
 	});
 	
-	$('#next_call').datepicker({format: 'yyyy-mm-dd'});
+	$('#start_date').datepicker({format: 'yyyy-mm-dd'});
+	
+	$('#birthday').datepicker({format: 'yyyy-mm-dd'});
 	
 	
 })
