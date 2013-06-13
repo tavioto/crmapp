@@ -1,5 +1,4 @@
 <?php 
-
 require_once("includes/includes.php");
 
 extract($_REQUEST);
@@ -17,12 +16,14 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 			case "user":
 				$user = new User();
 				$username = $user->getUsername($email);
+				require_once('includes/emailfunctions.php');
 	        	getUserMail($email, $username);
 	        	$saved = 'user';
 			break;
 			case "pass":
 				$user = new User();
 				$new_pass = $user->forgotPassword($email);
+				require_once('includes/emailfunctions.php');
 	        	forgotPassMail($email, $new_pass);
 	        	$saved = 'pass';
 			break;

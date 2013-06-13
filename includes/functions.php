@@ -1,5 +1,5 @@
 <?php
-
+	//require_once 'libs/sendgrid/SendGrid_loader.php';
 	function __autoload($class_name) {
 		$path = CLASS_PATH."/$class_name.class.php";
 		//echo "<br>loading: $path  ...";
@@ -50,24 +50,28 @@
 		return $pass;
 	}
 	
-	function forgotPassMail($mail, $pass){
-		$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-		$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$cabeceras .= 'From: CRM<CRM@CRM.com>' . "\r\n";
-		$asunto = "Your new password";
-		$mensaje.= "<p>This message was created automatically</p>";
-		$mensaje.= "<label>Your new Password: </label>{$pass}<br><br>";
-		mail($mail, $asunto, $mensaje, $cabeceras);
+	/*function forgotPassMail($mail, $pass){
+		$sendgrid = new SendGrid('tavioto', 'PHPMaster01'); 
+		$mail = new SendGrid\Mail();
+		$subject = "Your new password";
+		$varMsg = "<p>This message was created automatically</p>";
+		$varMsg.= "<label>Your new Password: </label>{$pass}<br><br>";
+		$mail->addTo($mail)->setFrom('CRM@CRM.COM')->setSubject($subject)->setText($varMsg)->setHtml($varMsg);
+		$sendgrid->smtp->send($mail);
 	}
 	
 	function getUserMail($mail, $user){
-		$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-		$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$cabeceras .= 'From: CRM<CRM@CRM.com>' . "\r\n";
-		$asunto = "We are remembering your Username";
-		$mensaje.= "<p>This message was created automatically</p>";
-		$mensaje.= "<label>Your Username: </label>{$user}<br><br>";
-		mail($mail, $asunto, $mensaje, $cabeceras);
-	}
+	
+		$sendgrid = new SendGrid('tavioto', 'PHPMaster01'); 
+		$mail = new SendGrid\Mail();
+		$subject = "We are remembering your Username";
+		$varMsg = "<p>This message was created automatically</p>";
+		$varMsg.= "<label>Your Username: </label>{$user}<br><br>";
+		$mail->addTo($mail)->setFrom('CRM@CRM.COM')->setSubject($subject)->setText($varMsg)->setHtml($varMsg);
+		$sendgrid->smtp->send($mail);
+		
+	}*/
+	
+	
 
 ?>
