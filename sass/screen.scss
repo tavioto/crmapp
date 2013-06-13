@@ -14,13 +14,54 @@ $legacy-support-for-ie: true;
 //- http://compass-style.org/reference/compass/
 
 
+//GRID
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+	width: 100% !important;
+}
 
+body {
+	background: $lightGrey;
+}
+
+.navbar {margin-bottom: 0 !important;}
+.block {
+	margin-left: 0 !important;
+	width: 25% !important;
+	height: 200px;
+	text-align: center;
+	padding: 67px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+	&:hover {
+		@include opacity(.9);
+		cursor: pointer;
+	}
+}
+.block.orange {
+	background: $orange;
+	color: $white;
+}
+
+.block.blue {
+	background: $blue;
+	color: $white;
+}
+
+.block.red {
+	background: $red;
+	color: $white;
+}
+
+.block.green {
+	background: $green;
+	color: $white;
+}
 
 // Typography Presets
 //////////////////////////////////////////////////////////
 
 h1 {
-	color: $black;
+	color: $grey;
 	//font-family: Arial; // REPLACE WTIH FONT STACK
 	@include adjust-font-size-to(68px);
 }
@@ -144,6 +185,21 @@ section {
 
 footer {
 
+}
+
+.header {
+	background: $black;
+	height: 250px;
+	width: 100%;
+	padding-top: 6%;
+
+	h1 {
+		width: 100%;
+		text-align: center;
+		color: $white;
+		text-transform: uppercase;
+
+	}
 }
 
 // Responsive - Must stay at bottom

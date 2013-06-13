@@ -31,7 +31,7 @@
 		-->
 
 	    <!-- STYLE -->
-	    <link href="stylesheets/screen.css" media="print" rel="stylesheet" type="text/css" />
+	    <link href="stylesheets/screen.css" media="screen" rel="stylesheet" type="text/css" />
 		<link href="stylesheets/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css" />
 		<link href="stylesheets/bootstrap-responsive.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
@@ -54,3 +54,6 @@
 
 	</head>
 	<body>
+		<div class="header">
+			<h1>$customerName here</h1>
+		</div>
