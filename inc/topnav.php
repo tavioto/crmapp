@@ -18,12 +18,13 @@
 				      <div class="nav-collapse collapse navbar-inverse-collapse">
 				        <!-- .nav, .navbar-search, .navbar-form, etc -->
 				        <ul class="nav">
-					        <li><a href="#">Home</a></li>
+					        <li><a href="dashboard.php">Home</a></li>
 					        <li class="dropdown">
 					        	<a href="#" class="dropdown" data-toggle="dropdown">Manage Users</a>
 					        	<ul class="dropdown-menu">
 						        	<li><a href="addUser.php">Add New User</a></li>
 						        	<li><a href="#">Modify a User</a></li>
+						        	<li><a href="viewUsers.php">View Users</a></li>
 					        	</ul>
 					        </li>
 					        <li class="dropdown">
