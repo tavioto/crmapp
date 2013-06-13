@@ -40,8 +40,7 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 	<?php } ?>
 	<form class="add-user" action="" method="post">
 		<!--
-		<input type="text" class="input-block-level" placeholder="First Name">
-		<input type="text" class="input-block-level" placeholder="Last Name">
+		
 		<input type="text" class="input-block-level" placeholder="Phone Number">
 		<input type="text" class="input-block-level" placeholder="City">
 		<input type="text" class="input-block-level" placeholder="State">
@@ -51,10 +50,12 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 		<input type="text" class="input-block-level" placeholder="Employment Start Date">
 		<input type="text" class="input-block-level" placeholder="Role">
 -->
-		<input type="text" class="input-block-level" placeholder="Name" name="name" id="name" required>
+		<input type="text" class="input-block-level" placeholder="First Name" name="first_name" id="first_name" required>
+		<input type="text" class="input-block-level" placeholder="Last Name" name="last_name" id="last_name" required>
+		<input type="email" class="input-block-level" placeholder="Email" name="email" id="email" required>
 		<input type="text" class="input-block-level" placeholder="Username" name="username" id="username" required>
 		<input type="password" class="input-block-level" placeholder="Password" name="password" id="password" required>
-		<input type="email" class="input-block-level" placeholder="Email" name="email" id="email" required>
+		
 		<input type="hidden" class="input-block-level" value="add" name="action">
 		<button class="btn btn-large btn-primary" type="submit">Add</button>
 	</form>
