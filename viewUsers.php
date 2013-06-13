@@ -44,11 +44,7 @@ $user = $user_model->fetchAll(array(array('id_company', '=', $_SESSION['id_compa
                         <td><?php echo $u->username; ?></td>
                         <td><?php echo $u->mail; ?></td>
                         <td><?php echo $status ?></td>
-                        <td><div class="btn-group">
-      <a href="#" class="btn btn-inverse disabled"><i class="icon-white icon-thumbs-up"></i></a>
-      <a href="#" class="btn btn-inverse disabled"><i class="icon-white icon-heart"></i></a>
-      <a href="#" class="btn btn-inverse disabled"><i class="icon-white icon-share-alt"></i></a>
-  </div></td>
+                        <td><a class="btn btn-primary" href="addUser.php?user_id=<?php echo $u->id;?>"><i class="icon-edit icon-white"></i></a><a class="btn dlte" href="#"><i class="icon-remove"></i></a><a class="btn" href=""><i class="icon-eye-open"></i></a></td>
 	                </tr>
 	                <?php endforeach ?>
 	            </tbody>
