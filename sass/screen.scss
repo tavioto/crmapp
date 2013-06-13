@@ -15,26 +15,51 @@ $legacy-support-for-ie: true;
 
 
 //GRID
-.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
-	width: 100% !important;
-}
+
+.row {margin-left: 0 !important;}
 
 body {
 	background: $lightGrey;
+}
+
+.wrapper {
+	width: 1140px;
+	margin: 0 auto;
+}
+
+.navbar {
+	.container {
+		width: 1170px !important;
+	}
 }
 
 .navbar {margin-bottom: 0 !important;}
 .block {
 	margin-left: 0 !important;
 	width: 25% !important;
-	height: 200px;
+	height: 340px;
 	text-align: center;
-	padding: 67px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	padding: 15px 30px;
+	
 
 	&:hover {
 		@include opacity(.9);
 		cursor: pointer;
+	}
+
+	h2 {
+		width: 100%;
+		text-align: left;
+	}
+
+	ul {
+		width: 100%;
+
+		li {
+			text-align: left;
+			width: 100%;
+			list-style-type: square;
+		}
 	}
 }
 .block.orange {
@@ -64,12 +89,14 @@ h1 {
 	color: $grey;
 	//font-family: Arial; // REPLACE WTIH FONT STACK
 	@include adjust-font-size-to(68px);
+	font-family: HelveticaNeue-UltraLight, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 h2 {
 	color: $black;
 	@include adjust-font-size-to(40px);
 	margin-bottom: 5px;
+	font-family: HelveticaNeue-UltraLight, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 h3 {

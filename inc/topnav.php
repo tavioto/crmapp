@@ -1,4 +1,3 @@
-<div class="container">
 <nav>
 				<div class="navbar navbar-inverse">
 				  <div class="navbar-inner">
