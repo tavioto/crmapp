@@ -15,8 +15,10 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 		
 		switch($action){
 			case "add":
+				$createDate = date("Y-m-d", time());
 				$user = new User();
-				$user->name = $name;
+				$user->first_name = $first_name;
+				$user->last_name = $last_name;
 				$user->password = md5($password);
 				$user->mail = $email;
 				$user->username = $username;
@@ -55,7 +57,10 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 		<input type="email" class="input-block-level" placeholder="Email" name="email" id="email" required>
 		<input type="text" class="input-block-level" placeholder="Username" name="username" id="username" required>
 		<input type="password" class="input-block-level" placeholder="Password" name="password" id="password" required>
-		
+		<select name="role" id="role" class="input-block-level">
+			<option value="2">Employee</option>
+			<option value="1">Administrator</option>
+		</select>
 		<input type="hidden" class="input-block-level" value="add" name="action">
 		<button class="btn btn-large btn-primary" type="submit">Add</button>
 	</form>
