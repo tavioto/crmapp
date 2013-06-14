@@ -44,6 +44,24 @@ $(document).ready(function(){
 		$("#delete_record").show();
 	}
 	
+	function loadCities(){
+		var stateId = $('#state').val();
+	   	$.ajax({
+			url: 'ajaxbackend.php?function=LoadCities',
+			dataType: 'jsonp',
+			data:{
+				stateId: stateId
+			}
+		}).done(function(data){
+			var i;
+			var html = '';
+			for(i = 0; i < data.length; i++){
+				html += "<option value='"+data[i].id+"'>"+data[i].name+"</option>"
+			}
+			$('#city').html(html);
+		});
+	}
+	
 	$("#user_mail").on("change", validateEmail);
 	
 	$("#user_username").on("change", validateUsername);
@@ -61,23 +79,7 @@ $(document).ready(function(){
 	
 	$('#birthday').datepicker({format: 'yyyy-mm-dd'});
 	
-	$('#state').on('change',function(){
-		    var stateId = $(this).val();
-		   	$.ajax({
-				url: 'ajaxbackend.php?function=LoadCities',
-				dataType: 'jsonp',
-				data:{
-					stateId: stateId
-				}
-			}).done(function(data){
-				var i;
-				var html = '';
-				for(i = 0; i < data.length; i++){
-					html += "<option value='"+data[i].id+"'>"+data[i].name+"</option>"
-				}
-				$('#city').html(html);
-			});
-	});
+	$('#state').on('change', loadCities);
 	
 	
 	
