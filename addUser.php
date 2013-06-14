@@ -67,7 +67,9 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 
 
 if(isset($user_id)){
-	$user = new User($user_id);	
+	$user = new User($user_id);
+	$city_model = new City();
+	$city_ = $city_model->fetchAll(array(array('state_id', '=', $user->state_id)));
 }
 
 $state_model = new State();
@@ -92,6 +94,9 @@ $state = $state_model->fetchAll();
 		</select>
 		<select name="city" id="city" class="input-block-level">
 			<option value="">--City--</option>
+			<?php foreach($city_ as $ct){?>
+			<option value="<?php echo $ct->id; ?>" <?php if($user->city_id == $ct->id){echo "selected";}?>><?php echo $ct->name; ?></option>
+			<?php } ?>
 		</select>
 		<?php if(isset($user->city_id)){ ?><input type="hidden" id="city_id" value="<?php echo $user->city_id; ?>"/><?php } ?>
 		<input type="text" class="input-block-level" placeholder="Address" name="address" id="address" required value="<?php echo $user->address;?>">
