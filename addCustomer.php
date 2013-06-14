@@ -3,7 +3,7 @@ require_once("includes/includes.php");
 if(!$auth->userLogged()){
 	header('location: index.php');
 }
-
+$company_id = $_SESSION['id_company'];
 require_once('inc/header.php'); 
 require_once('inc/topnav.php'); 
 
@@ -26,6 +26,7 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 				$customer->address = $address;
 				$customer->zip = $zip;
 				$customer->website = $website;
+				$customer->id_company = $company_id;
 				$customer->save();
 	        	$saved = 1;
 	        	
@@ -41,6 +42,7 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 				$customer->address = $address;
 				$customer->zip = $zip;
 				$customer->website = $website;
+				$customer->id_company = $company_id;
 				$customer->save();
 	        	$saved = 1;
 		break;

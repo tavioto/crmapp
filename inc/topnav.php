@@ -1,5 +1,6 @@
+<div class="container">
 <nav>
-				<div class="navbar navbar-inverse">
+				<div class="navbar nav-pills">
 				  <div class="navbar-inner">
 				    <div class="container">
 				 
@@ -22,15 +23,14 @@
 					        	<a href="#" class="dropdown" data-toggle="dropdown">Manage Users</a>
 					        	<ul class="dropdown-menu">
 						        	<li><a href="addUser.php">Add New User</a></li>
-						        	<li><a href="#">Modify a User</a></li>
-						        	<li><a href="viewUsers.php">View Users</a></li>
+						        	<li><a href="viewUsers.php">View All</a></li>
 					        	</ul>
 					        </li>
 					        <li class="dropdown">
 					        	<a href="#" class="dropdown" data-toggle="dropdown">Manage Customers</a>
 					        	<ul class="dropdown-menu">
-						        	<li><a href="#">Add New Customer</a></li>
-						        	<li><a href="#">Modify a Customer</a></li>
+						        	<li><a href="addCustomer.php">Add New Customer</a></li>
+						        	<li><a href="viewCustomers.php">View All</a></li>
 					        	</ul>
 					        </li>
 					        <li><a href="#">Timesheets</a></li>

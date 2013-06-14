@@ -74,6 +74,12 @@ $(document).ready(function(){
 		$("#delete_record").show();
 	});
 	
+	$(".dlteCust").on("click", function(){
+		var customer_id = $(this).closest('tr').find('.customerId').val();
+		$("#yes_delete").attr("href", "deleteCustomer.php?customer_id=" + customer_id);
+		$("#delete_record").show();
+	});
+	
 	$('#start_date').datepicker({format: 'yyyy-mm-dd'});
 	
 	$('#birthday').datepicker({format: 'yyyy-mm-dd'});
