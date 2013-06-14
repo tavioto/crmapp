@@ -35,6 +35,7 @@
 		<link href="stylesheets/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css" />
 		<link href="stylesheets/bootstrap-responsive.css" media="screen, projection" rel="stylesheet" type="text/css" />
 		<link href="stylesheets/datepicker.css" media="screen, projection" rel="stylesheet" type="text/css" />
+		<link href="stylesheets/zebra_pagination.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
 		<!-- JS LIBRARY -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

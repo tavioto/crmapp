@@ -33,6 +33,31 @@ class User extends Model {
     	return $qtty[0]->username;
 	   	
     }
+    
+    public function queryPag($page, $result, $company){
+    	$index = ($page - 1) * $result;
+    	if($user == -1){
+	    	$sql = "SELECT * FROM users LIMIT {$index}, {$result}";	
+    	}else{
+	    	$sql = "SELECT * FROM users WHERE id_company = {$company} LIMIT {$index}, {$result}";	
+    	}
+		
+		$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+		return $qtty;    
+    }
+    
+    public function qttyUser($company){
+    	if($user == -1){
+	    	$sql = "SELECT count(*) as qtty FROM users";
+    	}else{
+	    	$sql = "SELECT count(*) as qtty FROM users WHERE id_company = {$company}";	
+    	}
+		
+		$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+		return $qtty;    
+    }
  
      
  

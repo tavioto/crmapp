@@ -119,7 +119,7 @@ $state = $state_model->fetchAll();
 			<option value="1" <?php if($user->id_role == 1){echo "selected";}?>>Administrator</option>
 		</select>
 		<input type="hidden" class="input-block-level" value="<?php if(!$user_id){echo "add";}else{echo "edit";}?>" name="action">
-		<button class="btn btn-large btn-primary" type="submit"><?php if(isset($user_id)){echo "Edit";}else{echo "Add";}?></button>
+		<button class="btn btn-large btn-primary" type="submit">Save</button>
 	</form>
 </section>
 <?php require_once('inc/footer.php'); ?>

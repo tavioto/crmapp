@@ -9,10 +9,18 @@ if(!$auth->userLogged()){
 require_once('inc/header.php'); 
 require_once('inc/topnav.php'); 
 $saved = 0;
+$company_id = $_SESSION['id_company'];
+$result = 10;
 
-$user_model = new User();
-$user = $user_model->fetchAll(array(array('id_company', '=', $_SESSION['id_company'])));
+$paginacion = new Zebra_Pagination();
+$users = new User();
 
+$user = $users->queryPag($paginacion->get_page(), $result, $company_id);
+$countUsers = $users->qttyUser($company_id);
+
+$paginacion->records_per_page($result);
+$paginacion->padding(false);
+$paginacion->records($countUsers[0]->qtty);
 
 ?>
 <section id="viewUsers">
@@ -49,6 +57,6 @@ $user = $user_model->fetchAll(array(array('id_company', '=', $_SESSION['id_compa
 	                <?php endforeach ?>
 	            </tbody>
             </table>
-	
+			<?php $paginacion->render(); ?>
 </section>
 <?php require_once('inc/footer.php'); ?>
