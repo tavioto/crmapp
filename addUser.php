@@ -26,8 +26,8 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 				$user->username = $username;
 				$user->id_role = $role;
 				$user->id_company = $id_company;
-				$user->state = $state;
-				$user->city = $city;
+				$user->state_id = $state;
+				$user->city_id = $city;
 				$user->address = $address;
 				$user->zip = $zip;
 				$user->phone = $phone;
@@ -48,8 +48,8 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 				$user->username = $username;
 				$user->id_role = $role;
 				$user->id_company = $id_company;
-				$user->state = $state;
-				$user->city = $city;
+				$user->state_id = $state;
+				$user->city_id = $city;
 				$user->address = $address;
 				$user->zip = $zip;
 				$user->phone = $phone;
@@ -87,12 +87,13 @@ $state = $state_model->fetchAll();
 		<select name="state" id="state" class="input-block-level">
 			<option value="">--State--</option>
 			<?php foreach($state as $st){?>
-			<option value="<?php echo $st->name; ?>" <?php if($user->state == $st->name){echo "selected";}?>><?php echo $st->name; ?></option>
+			<option value="<?php echo $st->id; ?>" <?php if($user->state_id == $st->id){echo "selected";}?>><?php echo $st->name; ?></option>
 			<?php } ?>
 		</select>
 		<select name="city" id="city" class="input-block-level">
 			<option value="">--City--</option>
 		</select>
+		<?php if(isset($user->city_id)){ ?><input type="hidden" id="city_id" value="<?php echo $user->city_id; ?>"/><?php } ?>
 		<input type="text" class="input-block-level" placeholder="Address" name="address" id="address" required value="<?php echo $user->address;?>">
 		<input type="text" class="input-block-level" placeholder="Zipcode" name="zip" id="zip" required value="<?php echo $user->zip;?>">
 		<input type="email" class="input-block-level" placeholder="Email" name="email" id="email" required value="<?php echo $user->mail;?>">
