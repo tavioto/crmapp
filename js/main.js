@@ -69,9 +69,8 @@ $(document).ready(function(){
 	$("#no_delete").on("click", closeAlert);
 	
 	$(".dlte").on("click", function(){
-		var lead_id = $(this).closest('tr').find('.leadId').val();
-		
-		$("#yes_delete").attr("href", "deleteLead.php?lead_id=" + lead_id);
+		var user_id = $(this).closest('tr').find('.userId').val();
+		$("#yes_delete").attr("href", "deleteUser.php?user_id=" + user_id);
 		$("#delete_record").show();
 	});
 	
