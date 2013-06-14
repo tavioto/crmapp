@@ -43,6 +43,13 @@
 						        	<li><a href="#">Profit vs Loss Report</a></li>
 					        	</ul>
 					        </li>
+					        <li class="dropdown">
+					        	<a href="#" class="dropdown" data-toggle="dropdown">Manage Projects</a>
+					        	<ul class="dropdown-menu">
+						        	<li><a href="addProject.php">Add New Projects</a></li>
+						        	<li><a href="viewProjects.php">View All</a></li>
+					        	</ul>
+					        </li>
 					        <li><a href="logout.php">Logout</a></li>
 				        </ul>
 				      </div>

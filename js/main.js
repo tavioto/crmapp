@@ -80,7 +80,15 @@ $(document).ready(function(){
 		$("#delete_record").show();
 	});
 	
+	$(".dltePro").on("click", function(){
+		var project_id = $(this).closest('tr').find('.projectId').val();
+		$("#yes_delete").attr("href", "deleteProject.php?project_id=" + project_id);
+		$("#delete_record").show();
+	});
+	
 	$('#start_date').datepicker({format: 'yyyy-mm-dd'});
+	
+	$('#end_date').datepicker({format: 'yyyy-mm-dd'});
 	
 	$('#birthday').datepicker({format: 'yyyy-mm-dd'});
 	
