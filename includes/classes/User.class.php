@@ -58,6 +58,12 @@ class User extends Model {
     	$qtty = $data->fetchAll();
 		return $qtty;    
     }
+    
+    public function deleteUser($user_id){
+	   $sql = "DELETE FROM users WHERE id = {$user_id}";	
+	   $data = $this->conn->query($sql);
+	   
+    }
  
      
  
