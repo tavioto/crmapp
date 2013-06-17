@@ -46,6 +46,12 @@ class Project extends Model {
 	   $sql = "DELETE FROM projects WHERE id = {$project_id}";	
 	   $data = $this->conn->query($sql);
 	   
+	   $sql = "DELETE FROM projects_employees WHERE id_project = {$project_id}";	
+	   $data = $this->conn->query($sql);
+	   
+	   $sql = "DELETE FROM projects_documents WHERE id_project = {$project_id}";	
+	   $data = $this->conn->query($sql);
+	   
     }
 }
 

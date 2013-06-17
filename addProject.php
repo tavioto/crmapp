@@ -29,6 +29,7 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 				$project->email = $email;
 				$project->address = $address;
 				$project->id_company = $company_id;
+				$project->id_customer = $customer_id;
 				$project->save();
 				$pro_id = $project->getId();
 				
@@ -54,6 +55,7 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 				$project->email = $email;
 				$project->address = $address;
 				$project->id_company = $company_id;
+				$project->id_customer = $customer_id;
 				$project->save();
 				$pro_emp = new ProjectEmployee();
 				$pro_emp->deleteEmployees($project_id);
@@ -71,11 +73,19 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 
 if(isset($project_id)){
 	$project = new Project($project_id);
-	$pro_emp = new ProjectEmployee($project_id);
+	$pro_emp_model = new ProjectEmployee();
+	$pro_emp = $pro_emp_model->fetchAll(array(array('id_project','=', $project_id)));
+	
+	foreach($pro_emp as $pe){
+		$empl[] = $pe->id_employee;
+	}
 }
 
 $state_model = new State();
 $state = $state_model->fetchAll();
+
+$customer_model = new Customer();
+$customer = $customer_model->fetchAll(array(array('id_company', '=', $company_id)));
 
 $user_model = new User();
 $user = $user_model->fetchAll(array(array('id_company', '=', $company_id),
@@ -106,14 +116,29 @@ $user = $user_model->fetchAll(array(array('id_company', '=', $company_id),
 		<input type="text" class="input-block-level" placeholder="Phone" name="phone" id="phone" required value="<?php echo $project->phone;?>">
 		<input type="email" class="input-block-level" placeholder="Email" name="email" id="email" required value="<?php echo $project->email;?>">
 		<input type="text" class="input-block-level" placeholder="Address" name="address" id="address" required value="<?php echo $project->address;?>">
+		<select name="customer_id" id="customer_id" class="input-block-level">
+			<option value="">--Customer--</option>
+			<?php
+				foreach($customer as $c){ ?>
+				<option value="<?php echo $c->id; ?>" <?php if($project->id_customer == $c->id){echo "selected";}?>><?php echo $c->company_name; ?></option>
+			<?php	
+				}
+			?>
+		</select>
 		<legend>Asign Employees</legend>
 		
 		<div class="controls span2">
 			<?php 
 				$c = 0; 
-				foreach($user as $u){ ?>
+				foreach($user as $u){ 
+					if(in_array($u->id, $empl)){
+						$checked = "checked";
+					}else{
+						$checked = "";
+					}
+				?>
 						<label class="checkbox">
-							<input type="checkbox" value="<?php echo $u->id; ?>" id="inlineCheckbox1" name="employees[]"> <?php echo $u->first_name." ".$u->last_name; ?>
+							<input type="checkbox" value="<?php echo $u->id; ?>" id="inlineCheckbox1" name="employees[]" <?php echo $checked; ?>> <?php echo $u->first_name." ".$u->last_name; ?>
 						</label>
 						<?php $c++; if($c == 3){ $c = 0; ?>
 							</div>
@@ -121,7 +146,6 @@ $user = $user_model->fetchAll(array(array('id_company', '=', $company_id),
 						<?php }?>
 				<?php } ?>
 		</div>
-		<input type="text" class="input-block-level" placeholder="Employees" name="" id="" disabled>
 		<legend>Documents</legend>
 		<input type="hidden" class="input-block-level" value="<?php if(!$project_id){echo "add";}else{echo "edit";}?>" name="action">
 		<button class="btn btn-large btn-primary" type="submit">Save</button>
