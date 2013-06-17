@@ -33,7 +33,13 @@
 						        	<li><a href="viewCustomers.php">View All</a></li>
 					        	</ul>
 					        </li>
-					        <li><a href="#">Timesheets</a></li>
+					        <li class="dropdown">
+					        	<a href="#" class="dropdown" data-toggle="dropdown">Timesheets</a>
+					        	<ul class="dropdown-menu">
+						        	<li><a href="addTimesheet.php">Add New Timesheet</a></li>
+						        	<li><a href="viewTimesheets.php">View All</a></li>
+					        	</ul>
+					        </li>
 					        <li class="dropdown">
 					        	<a href="#" class="dropdown" data-toggle="dropdown">Reports</a>
 					        	<ul class="dropdown-menu">
