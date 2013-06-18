@@ -62,6 +62,25 @@ $(document).ready(function(){
 		});
 	}
 	
+	function loadProjects(){
+		var customerId = $('#customerId').val();
+	   	$.ajax({
+			url: 'ajaxbackend.php?function=LoadProjects',
+			dataType: 'jsonp',
+			data:{
+				customerId: customerId
+			}
+		}).done(function(data){
+			var i;
+			var html = '';
+			html+= "<option value=''>--Project--</option>";
+			for(i = 0; i < data.length; i++){
+				html += "<option value='"+data[i].id+"'>"+data[i].name+"</option>"
+			}
+			$('#projectId').html(html);
+		});
+	}
+	
 	$("#user_mail").on("change", validateEmail);
 	
 	$("#user_username").on("change", validateUsername);
@@ -93,6 +112,17 @@ $(document).ready(function(){
 	$('#birthday').datepicker({format: 'yyyy-mm-dd'});
 	
 	$('#state').on('change', loadCities);
+	
+	$('#customerId').on('change', loadProjects);
+	
+	$('#time').on('change', function(){
+		var hour = $('#time').val();
+		if(hour < 1 ){
+			aler("Please insert a int value");
+		}
+	});
+	
+	$('#time').validCampoFranz('0123456789.'); 
 	
 	
 	

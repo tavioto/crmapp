@@ -93,7 +93,7 @@ $user = $user_model->fetchAll(array(array('id_company', '=', $company_id),
 							  ));
 
 ?>
-<section id="<addcustomer></addcustomer>">
+<section id="addProject">
 	<h1><?php if(isset($project_id)){echo "Edit";}else{echo "Add";}?> a Project</h1>
 	<?php if($saved == 1){?>
 	<div class="alert alert-success">

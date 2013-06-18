@@ -14,4 +14,15 @@ function LoadCities(){
 		echo json_encode($data); 
 	}
 }
+
+function LoadProjects(){
+	extract($_REQUEST);
+	$project_model = new Project();
+	$data = $project_model->fetchAll(array(array('id_customer','=', $customerId)));
+	if(isset($_GET['callback'])){ 
+		echo $_GET['callback'].'('.json_encode($data).')';
+	}else{
+		echo json_encode($data); 
+	}
+}
 ?>
