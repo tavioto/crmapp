@@ -17,6 +17,13 @@ class Timesheet extends Model {
         $this->id = $id;
     }
     
+    public function HoursDay($userId, $date){
+	 	$sql = "SELECT SUM(time_) as TotalHours FROM timesheet WHERE id_user = $userId AND date_ = '$date'";
+	 	$data = $this->conn->query($sql);
+    	$qtty = $data->fetchAll();
+		return $qtty;    
+    }
+    
     
 }
 

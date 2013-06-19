@@ -30,6 +30,7 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 				$project->address = $address;
 				$project->id_company = $company_id;
 				$project->id_customer = $customer_id;
+				$project->estimated_hours = $time;
 				$project->save();
 				$pro_id = $project->getId();
 				
@@ -56,6 +57,7 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 				$project->address = $address;
 				$project->id_company = $company_id;
 				$project->id_customer = $customer_id;
+				$project->estimated_hours = $time;
 				$project->save();
 				$pro_emp = new ProjectEmployee();
 				$pro_emp->deleteEmployees($project_id);
@@ -111,6 +113,7 @@ $user = $user_model->fetchAll(array(array('id_company', '=', $company_id),
 		</select>
 		<input type="text" class="input-block-level" placeholder="Start Date" name="start_date" id="start_date" required value="<?php echo $project->start_date;?>">
 		<input type="text" class="input-block-level" placeholder="End Date" name="end_date" id="end_date" required value="<?php echo $project->end_date;?>">
+		<input type="text" class="input-block-level" placeholder="Estimated Hours ex: 1.5" name="time" id="time" value="<?php echo $project->estimated_hours?>" required>
 		<input type="text" class="input-block-level" placeholder="Type of Project" name="type" id="type" required value="<?php echo $project->type;?>">
 		<input type="text" class="input-block-level" placeholder="Contact" name="contact" id="contact" required value="<?php echo $project->contact;?>">
 		<input type="text" class="input-block-level" placeholder="Phone" name="phone" id="phone" required value="<?php echo $project->phone;?>">
