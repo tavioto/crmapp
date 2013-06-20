@@ -24,6 +24,20 @@ class Timesheet extends Model {
 		return $qtty;    
     }
     
+    public function totalWeek($userId){
+	    $sql = "SELECT SUM(time_) as TotalWeek FROM timesheet WHERE id_user = $userId AND date_ BETWEEN DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) DAY) AND DATE_ADD(DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) DAY),INTERVAL 7 DAY)";
+	    $data = $this->conn->query($sql);
+	    $qtty = $data->fetchAll();
+	    return $qtty;
+    }
+    
+    public function totalMonth($month, $userId){
+	    $sql = "SELECT SUM(time_) as TotalMonth FROM timesheet WHERE MONTH(date_) = $month AND id_user = $userId";
+	    $data = $this->conn->query($sql);
+	    $qtty = $data->fetchAll();
+	    return $qtty;
+    }
+    
     
 }
 

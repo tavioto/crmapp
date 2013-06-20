@@ -41,6 +41,12 @@
 					        	</ul>
 					        </li>
 					        <li class="dropdown">
+					        	<a href="#" class="dropdown" data-toggle="dropdown">Tasks</a>
+					        	<ul class="dropdown-menu">
+						        	<li><a href="addTask.php">Add New Task</a></li>
+					        	</ul>
+					        </li>
+					        <li class="dropdown">
 					        	<a href="#" class="dropdown" data-toggle="dropdown">Reports</a>
 					        	<ul class="dropdown-menu">
 						        	<li><a href="#">Project Report</a></li>
