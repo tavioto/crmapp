@@ -17,6 +17,11 @@ class TaskEmployee extends Model {
         $this->id = $id;
     }
     
+    public function deleteTasks($task_id){
+	 $sql = "DELETE FROM tasks_employees WHERE id_task = {$task_id}";	
+	   $data = $this->conn->query($sql);   
+    }
+    
     
 }
 

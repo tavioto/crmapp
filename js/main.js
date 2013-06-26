@@ -105,6 +105,12 @@ $(document).ready(function(){
 		$("#delete_record").show();
 	});
 	
+	$(".dlteTask").on("click", function(){
+		var task_id = $(this).closest('tr').find('.taskId').val();
+		$("#yes_delete").attr("href", "deleteTask.php?task_id=" + task_id);
+		$("#delete_record").show();
+	});
+	
 	$('#start_date').datepicker({format: 'yyyy-mm-dd'});
 	
 	$('#end_date').datepicker({format: 'yyyy-mm-dd'});

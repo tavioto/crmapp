@@ -39,9 +39,35 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 	        	
 		break;
 		case "edit":
+				$task = new Task($task_id);
+				$task->title = $title;
+				$task->description = $description;
+				$task->estimated_hours = $time;
+				$task->id_project = $project;
+				$task->save();
 				
+				$task_emp = new TaskEmployee();
+				$task_emp->deleteTasks($task_id);
+				
+				foreach($employees as $e){
+					$task_emp = new TaskEmployee();
+					$task_emp->id_project = $project;
+					$task_emp->id_employee = $e;
+					$task_emp->id_task = $task_id;
+					$task_emp->save();
+				}
 	        	$saved = 1;
 		break;
+	}
+}
+
+if(isset($task_id)){
+	$task = new Task($task_id);
+	$task_emp_model = new TaskEmployee();
+	$task_emp = $task_emp_model->fetchAll(array(array('id_task','=', $task_id)));
+	
+	foreach($task_emp as $pe){
+		$empl[] = $pe->id_employee;
 	}
 }
 
@@ -62,16 +88,16 @@ $user = $user_model->fetchAll(array(
 	</div>
 	<?php } ?>
 	<form class="add-customer" action="" method="post">
-		<input type="text" class="input-block-level" placeholder="Title" name="title" id="title" required value="">
+		<input type="text" class="input-block-level" placeholder="Title" name="title" id="title" required value="<?php echo $task->title;?>">
 		<label for="">Description:</label>
-		<textarea name="description" id="description" cols="30" rows="10" class="input-block-level"></textarea>
+		<textarea name="description" id="description" cols="30" rows="10" class="input-block-level"><?php echo $task->description;?></textarea>
 		<select name="project" id="project" class="input-block-level">
 			<option value="">--Projects--</option>
 			<?php foreach($project as $pro){?>
-			<option value="<?php echo $pro->id;?>"><?php echo $pro->name;?></option>
+			<option value="<?php echo $pro->id;?>" <?php if($task->id_project == $pro->id){echo "selected";}?>><?php echo $pro->name;?></option>
 			<?php } ?>
 		</select>
-		<input type="text" class="input-block-level" placeholder="Estimated Hours Ex: 1.5" name="time" id="time" required value="">
+		<input type="text" class="input-block-level" placeholder="Estimated Hours Ex: 1.5" name="time" id="time" required value="<?php echo $task->estimated_hours;?>">
 		<legend>Asign Employees</legend>
 		
 		<div class="controls span2">
@@ -94,7 +120,7 @@ $user = $user_model->fetchAll(array(
 				<?php } ?>
 		</div>
 		<legend>&nbsp;</legend>
-		<input type="hidden" class="input-block-level" value="<?php if(!$project_id){echo "add";}else{echo "edit";}?>" name="action">
+		<input type="hidden" class="input-block-level" value="<?php if(!$task_id){echo "add";}else{echo "edit";}?>" name="action">
 		<button class="btn btn-large btn-primary" type="submit">Save</button>
 	</form>
 </section>

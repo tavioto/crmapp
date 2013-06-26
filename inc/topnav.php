@@ -44,6 +44,7 @@
 					        	<a href="#" class="dropdown" data-toggle="dropdown">Tasks</a>
 					        	<ul class="dropdown-menu">
 						        	<li><a href="addTask.php">Add New Task</a></li>
+						        	<li><a href="viewTasks.php">View All</a></li>
 					        	</ul>
 					        </li>
 					        <li class="dropdown">
