@@ -28,8 +28,8 @@
 		  })(window);
 		</script>
 		<script>
-	$("div#myId").dropzone({ url: "/file/post" });
-</script>
+			
+		</script>
 
 </body>
 </html>

@@ -10,9 +10,14 @@ require_once('inc/topnav.php');
 
 extract($_REQUEST);
 $project = new Project($project_id);
+
 $pro_emp = new ProjectEmployee();
 $emp = $pro_emp->fetchAll(array(array('id_project', '=', $project_id)));
 $qttyEmp = count($emp);
+
+$pro_doc = new ProjectDocuments();
+$docs = $pro_doc->fetchAll(array(array('id_project', '=', $project_id)));
+$qttyDocs = count($docs);
 ?>
 <section id="userDetail">
 	<h1>Project Detail</h1>
@@ -70,7 +75,18 @@ $qttyEmp = count($emp);
 			            		<td><?php echo $i.". ".$user->first_name." ".$user->last_name; ?></td></tr><tr>
 		            	<?php } ?>
 		            </tr>
-	            		
+		            <?php if($qttyDocs > 0){?>
+		            <tr>
+	            		<th rowspan="<?php echo $qttyDocs; ?>">Documents</th>
+	            		<?php
+		            		$i=0;
+		            		foreach($docs as $d){
+			            		$i++;
+			            	?>
+			            		<td><?php echo $i.". ";?><a href="/uploads/<?php echo $d->docname?>"><?php echo $d->docname; ?></a></td></tr><tr>
+		            	<?php } ?>
+		            </tr>
+	            	<?php } ?>
 	            </tbody>
             </table>
 </section>

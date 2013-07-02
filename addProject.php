@@ -40,6 +40,16 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 					$pro_emp->id_employee = $e;
 					$pro_emp->save();
 				}
+				
+				if(isset($filesname)){
+					foreach($filesname as $f){
+						$pro_doc = new ProjectDocuments();
+						$pro_doc->id_project = $pro_id;
+						$pro_doc->docname = $f;
+						$pro_doc->save();
+					}	
+				}
+				
 	        	$saved = 1;
 	        	
 		break;
@@ -66,6 +76,15 @@ if(isset($_POST['action']) && $_POST['action'] != ""){
 					$pro_emp->id_project = $project_id;
 					$pro_emp->id_employee = $e;
 					$pro_emp->save();
+				}
+				
+				if(isset($filesname)){
+					foreach($filesname as $f){
+						$pro_doc = new ProjectDocuments();
+						$pro_doc->id_project = $project_id;
+						$pro_doc->docname = $f;
+						$pro_doc->save();
+					}	
 				}
 	        	$saved = 1;
 		break;
@@ -151,15 +170,32 @@ $user = $user_model->fetchAll(array(array('id_company', '=', $company_id),
 				<?php } ?>
 		</div>
 		<legend>Documents</legend>
+		
+		<br />
 			<div id="myId" class="dropzone">
 				
 			</div>
-		<br />
+			<br />
+		<button class="btn btn-warning" type="button" id="upload">Upload</button>
+		<hr />
 		<input type="hidden" class="input-block-level" value="<?php if(!$project_id){echo "add";}else{echo "edit";}?>" name="action">
-		<button class="btn btn-large btn-primary" type="submit">Save</button>
+		<button class="btn btn-large btn-primary" type="submit" id="saveData">Save</button>
+		
 	</form>
 	
 </section>
-
+<script>
+	$(document).ready(function(){
+		$("div#myId").dropzone({ url: "/uploadDocs.php" });
+		$("#upload").on("click", function(){
+			alert("The documents was added.");
+			var htmlFields = '';
+			$(".dz-filename span").each(function(){
+				htmlFields = "<input type='hidden' value='"+$(this).text()+"' name='filesname[]'>";
+				$("#myId").after(htmlFields);
+			});
+		});
+	});
+</script>
 
 <?php require_once('inc/footer.php'); ?>
