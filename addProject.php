@@ -95,6 +95,7 @@ $user = $user_model->fetchAll(array(array('id_company', '=', $company_id),
 							  ));
 
 ?>
+
 <section id="addProject">
 	<h1><?php if(isset($project_id)){echo "Edit";}else{echo "Add";}?> a Project</h1>
 	<?php if($saved == 1){?>
@@ -150,8 +151,15 @@ $user = $user_model->fetchAll(array(array('id_company', '=', $company_id),
 				<?php } ?>
 		</div>
 		<legend>Documents</legend>
+			<div id="myId" class="dropzone">
+				
+			</div>
+		<br />
 		<input type="hidden" class="input-block-level" value="<?php if(!$project_id){echo "add";}else{echo "edit";}?>" name="action">
 		<button class="btn btn-large btn-primary" type="submit">Save</button>
 	</form>
+	
 </section>
+
+
 <?php require_once('inc/footer.php'); ?>
